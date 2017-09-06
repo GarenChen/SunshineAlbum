@@ -1,0 +1,6 @@
+framework module SunshineAlbum {
+  umbrella header "SunshineAlbum-umbrella.h"
+
+  export *
+  module * { export * }
+}
