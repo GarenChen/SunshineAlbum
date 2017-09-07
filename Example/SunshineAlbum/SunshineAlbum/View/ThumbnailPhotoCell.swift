@@ -34,11 +34,17 @@ class ThumbnailPhotoCell: UICollectionViewCell {
 		}
 	}
 	
+	var showIndex: Int = 0 {
+		didSet {
+			selectedButton.index = showIndex
+		}
+	}
+	
 	var didClickSelectedButton: ((inout Bool, AssetModel) -> Void)?
     
     @IBOutlet private weak var thumbnailView: UIImageView!
 
-    @IBOutlet private weak var selectedButton: UIButton!
+    @IBOutlet private weak var selectedButton: SASelectionButton!
     
     @IBOutlet private weak var videoIcon: UIImageView!
     
@@ -48,18 +54,19 @@ class ThumbnailPhotoCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+		
+		selectedButton.didClick = { [weak self] sender in
+			
+			guard let `self` = self else { return }
+			
+			var isSelected: Bool = !sender.isSelected
+			
+			guard let model = self.model else { return }
+			
+			self.didClickSelectedButton?(&isSelected, model)
+			
+			sender.isSelected = isSelected
+		}
     }
 
-	@IBAction func clickSelectedButton(_ sender: UIButton) {
-		
-        var isSelected: Bool = !sender.isSelected
-        
-        guard let model = model else { return }
-        
-		didClickSelectedButton?(&isSelected, model)
-
-		sender.isSelected = isSelected
-	}
-	
 }

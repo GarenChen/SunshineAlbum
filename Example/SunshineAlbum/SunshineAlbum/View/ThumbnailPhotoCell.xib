@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ThumbnailPhotoCell" customModule="SunshineAlbum_Example" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_album_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="3jL-qh-AEI">
+                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01:30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JoP-jb-azv">
+                        <rect key="frame" x="48.5" y="66" width="27.5" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="10" id="H0R-dd-fzA"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NRp-Bb-eQD" customClass="SASelectionButton" customModule="SunshineAlbum_Example" customModuleProvider="target">
+                        <rect key="frame" x="54" y="2" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="e7h-2t-9Yl"/>
+                            <constraint firstAttribute="width" constant="24" id="sLo-f9-nek"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="selected" image="icon_picture_selected"/>
+                        <state key="highlighted" image="icon_preview_normal_light"/>
+                    </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_grid_video_badge" translatesAutoresizingMaskIntoConstraints="NO" id="Sf1-kh-smJ">
+                        <rect key="frame" x="4" y="64" width="20" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="5CU-Dz-MbD"/>
+                            <constraint firstAttribute="height" constant="12" id="hsb-jz-Omw"/>
+                        </constraints>
+                    </imageView>
+                    <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u82-vb-Dli">
+                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="3jL-qh-AEI" secondAttribute="trailing" id="2t4-3r-eey"/>
+                <constraint firstAttribute="bottom" secondItem="u82-vb-Dli" secondAttribute="bottom" id="9fN-Qt-kYT"/>
+                <constraint firstItem="Sf1-kh-smJ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="KqF-OW-INy"/>
+                <constraint firstItem="u82-vb-Dli" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Ota-l9-qfh"/>
+                <constraint firstAttribute="trailing" secondItem="u82-vb-Dli" secondAttribute="trailing" id="RXJ-2Y-LgB"/>
+                <constraint firstAttribute="bottom" secondItem="Sf1-kh-smJ" secondAttribute="bottom" constant="4" id="SSp-ux-d2R"/>
+                <constraint firstItem="NRp-Bb-eQD" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="2" id="V9r-cw-5bE"/>
+                <constraint firstItem="3jL-qh-AEI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="VWg-1O-wtd"/>
+                <constraint firstItem="u82-vb-Dli" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="VvK-lp-Tcq"/>
+                <constraint firstAttribute="bottom" secondItem="JoP-jb-azv" secondAttribute="bottom" constant="4" id="W7o-e5-tc5"/>
+                <constraint firstAttribute="trailing" secondItem="NRp-Bb-eQD" secondAttribute="trailing" constant="2" id="WWU-Yz-2rZ"/>
+                <constraint firstItem="3jL-qh-AEI" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="fKw-LR-PRh"/>
+                <constraint firstAttribute="trailing" secondItem="JoP-jb-azv" secondAttribute="trailing" constant="4" id="sjI-fU-0vC"/>
+                <constraint firstAttribute="bottom" secondItem="3jL-qh-AEI" secondAttribute="bottom" id="zGp-SD-uzc"/>
+            </constraints>
+            <size key="customSize" width="101" height="111"/>
+            <connections>
+                <outlet property="cellMaskView" destination="u82-vb-Dli" id="03V-W7-Eck"/>
+                <outlet property="durationLabel" destination="JoP-jb-azv" id="pvT-x1-Cme"/>
+                <outlet property="selectedButton" destination="NRp-Bb-eQD" id="KqQ-Mi-HB6"/>
+                <outlet property="thumbnailView" destination="3jL-qh-AEI" id="oCY-cD-qcH"/>
+                <outlet property="videoIcon" destination="Sf1-kh-smJ" id="i78-xR-cPY"/>
+            </connections>
+            <point key="canvasLocation" x="-97" y="-3"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="icon_album_placeholder" width="24" height="24"/>
+        <image name="icon_grid_video_badge" width="17" height="17"/>
+        <image name="icon_picture_selected" width="60" height="60"/>
+        <image name="icon_preview_normal_light" width="60" height="60"/>
+    </resources>
+</document>
