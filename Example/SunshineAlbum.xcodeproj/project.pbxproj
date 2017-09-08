@@ -44,6 +44,8 @@
 		C8CBC29D1F61425F001D13BA /* SunshineAlbum.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C8CBC29C1F61425F001D13BA /* SunshineAlbum.bundle */; };
 		C8CBC29F1F614C1F001D13BA /* PreviewVideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CBC29E1F614C1E001D13BA /* PreviewVideoController.swift */; };
 		C8CBC2A11F614C77001D13BA /* PreviewPhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CBC2A01F614C77001D13BA /* PreviewPhotoController.swift */; };
+		CACC99CA1F619319004FB617 /* PreviewSuperController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACC99C91F619319004FB617 /* PreviewSuperController.swift */; };
+		CACC99CC1F6194E5004FB617 /* PreviewContentControllerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACC99CB1F6194E5004FB617 /* PreviewContentControllerType.swift */; };
 		ECFC07ACDB8E36EAD2A5259B /* Pods_SunshineAlbum_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20FB2C3D3E40397A53CAACA1 /* Pods_SunshineAlbum_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +107,8 @@
 		C8CBC29C1F61425F001D13BA /* SunshineAlbum.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SunshineAlbum.bundle; sourceTree = "<group>"; };
 		C8CBC29E1F614C1E001D13BA /* PreviewVideoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoController.swift; sourceTree = "<group>"; };
 		C8CBC2A01F614C77001D13BA /* PreviewPhotoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewPhotoController.swift; sourceTree = "<group>"; };
+		CACC99C91F619319004FB617 /* PreviewSuperController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewSuperController.swift; sourceTree = "<group>"; };
+		CACC99CB1F6194E5004FB617 /* PreviewContentControllerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewContentControllerType.swift; sourceTree = "<group>"; };
 		CF1CA615367EDC501353232B /* Pods-SunshineAlbum_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SunshineAlbum_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SunshineAlbum_Tests/Pods-SunshineAlbum_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		D7398ED1409668F5A2A65D66 /* SunshineAlbum.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SunshineAlbum.podspec; path = ../SunshineAlbum.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -237,6 +241,8 @@
 				C8CBC25B1F60F794001D13BA /* Model */,
 				C8CBC2641F60F794001D13BA /* Tools */,
 				C8CBC2681F60F794001D13BA /* View */,
+				CACC99C91F619319004FB617 /* PreviewSuperController.swift */,
+				CACC99CB1F6194E5004FB617 /* PreviewContentControllerType.swift */,
 			);
 			path = SunshineAlbum;
 			sourceTree = "<group>";
@@ -521,8 +527,10 @@
 				C8CBC28E1F611F69001D13BA /* UIColor+Extension.swift in Sources */,
 				C8CBC2811F60F794001D13BA /* PhotoPreviewCell.swift in Sources */,
 				C8CBC28A1F611EA2001D13BA /* UIView+Extension.swift in Sources */,
+				CACC99CC1F6194E5004FB617 /* PreviewContentControllerType.swift in Sources */,
 				C8CBC2711F60F794001D13BA /* AlbumMutiSelecttionView.swift in Sources */,
 				C8CBC2751F60F794001D13BA /* AssetModel.swift in Sources */,
+				CACC99CA1F619319004FB617 /* PreviewSuperController.swift in Sources */,
 				C8CBC27E1F60F794001D13BA /* DebugLog.swift in Sources */,
 				C8CBC28C1F611ECD001D13BA /* UIScreen+Extension.swift in Sources */,
 				C8CBC27F1F60F794001D13BA /* AlbumsListCell.swift in Sources */,

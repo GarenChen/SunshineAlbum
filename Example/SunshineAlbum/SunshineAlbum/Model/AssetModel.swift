@@ -19,6 +19,9 @@ open class AssetModel {
 	
 	open var isSelected: Bool = false
 	
+    /// 只有当type为image时有效
+    open var isFullImage: Bool = false
+    
 	/// 只有当type为video时有效
 	open var videoDuration: TimeInterval
 	

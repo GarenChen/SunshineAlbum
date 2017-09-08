@@ -65,9 +65,9 @@ class PhotoPreviewController: UIViewController, UICollectionViewDelegate, UIColl
 
     private lazy var customBottombar: PreviewBottomBar = { [unowned self] in
         let bar  = PreviewBottomBar(frame: CGRect(x: 0, y: UIScreen.ScreenHeight - 44, width: UIScreen.ScreenWidth, height: 44))
-        bar.didClickDoneButton = { [weak self] in
-            self?.clickDoneButton()
-        }
+//        bar.didClickDoneButton = { [weak self] in
+//            self?.clickDoneButton()
+//        }
         return bar
     }()
     
@@ -135,10 +135,10 @@ class PhotoPreviewController: UIViewController, UICollectionViewDelegate, UIColl
             
             selectedButton.isSelected = currentModel.isSelected
             
-            customBottombar.doneButton.isEnabled = !photoSelectorCtr.selectedModels.isEmpty
-            
-            let doneButtonTitle = photoSelectorCtr.selectedModels.isEmpty ? "完成" : "完成(\(photoSelectorCtr.selectedModels.count))"
-            customBottombar.doneButton.setTitle(doneButtonTitle, for: .normal)
+//            customBottombar.doneButton.isEnabled = !photoSelectorCtr.selectedModels.isEmpty
+//            
+//            let doneButtonTitle = photoSelectorCtr.selectedModels.isEmpty ? "完成" : "完成(\(photoSelectorCtr.selectedModels.count))"
+//            customBottombar.doneButton.setTitle(doneButtonTitle, for: .normal)
             
         } else {
             customNavagationBar.isHidden = true

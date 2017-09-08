@@ -25,7 +25,7 @@ class SANavigationBar: UIToolbar {
 			rightButton.index = rightItemIndex
 		}
 	}
-	
+    
 	private lazy var backButton: UIButton = {
 		let backButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 44))
 		let backIcon = UIImage(named: "icon_back.png", in: Bundle.currentResourceBundle, compatibleWith: nil)

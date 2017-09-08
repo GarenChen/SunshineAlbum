@@ -11,7 +11,7 @@ import AVFoundation
 import AVKit
 import Photos
 
-class PreviewVideoController: AVPlayerViewController {
+class PreviewVideoController: AVPlayerViewController, PreviewContentControllerType {
 
     var assetModel: AssetModel?
     
@@ -19,12 +19,14 @@ class PreviewVideoController: AVPlayerViewController {
     
     var playItem: AVPlayerItem?
     
+    var tapConent: (() -> Void)?
+    
     private lazy var customBottombar: PreviewBottomBar = { [unowned self] in
         let bar  = PreviewBottomBar(frame: CGRect(x: 0, y: UIScreen.ScreenHeight - 44, width: UIScreen.ScreenWidth, height: 44))
-        bar.doneButton.setTitle("完成", for: .normal)
-        bar.didClickDoneButton = { [weak self] in
-            self?.clickDoneButton()
-        }
+//        bar.doneButton.setTitle("完成", for: .normal)
+//        bar.didClickDoneButton = { [weak self] in
+//            self?.clickDoneButton()
+//        }
         return bar
     }()
     
@@ -98,6 +100,10 @@ class PreviewVideoController: AVPlayerViewController {
         
         _ = playButton
         view.addSubview(customBottombar)
+    }
+    
+    func recoverSubview() {
+        
     }
     
     func endPlaying() {

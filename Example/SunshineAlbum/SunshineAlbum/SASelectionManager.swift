@@ -24,8 +24,8 @@ class SASelectionManager {
 	
 	
 	/// 大图缓存
-	lazy var imagesCaches: NSCache<NSString, UIImage> = {
-		let imagesCaches = NSCache<NSString, UIImage>()
+	lazy var imagesCaches: NSCache<AssetModel, UIImage> = {
+		let imagesCaches = NSCache<AssetModel, UIImage>()
 		imagesCaches.countLimit = 64
 		imagesCaches.name = "sunshine_album_images_cache"
 		return imagesCaches

@@ -10,18 +10,37 @@ import UIKit
 
 class PreviewBottomBar: UIView {
     
-    var didClickDoneButton: (() -> Void)?
+    var didClickedFirst: ((UIButton) -> Void)?
     
-    lazy var doneButton: UIButton = { [unowned self] in
-        let doneButton = UIButton()
-        doneButton.frame = CGRect(x: UIScreen.ScreenWidth - 80, y: 0, width: 70, height: 44)
-        doneButton.setTitleColor(.white, for: .normal)
-        doneButton.setTitleColor(.lightGray, for: .highlighted)
-        doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        doneButton.addTarget(self, action: #selector(clickDoneButton(_:)), for: .touchUpInside)
-        return doneButton
+    var didClickedSecond:  ((UIButton) -> Void)?
+    
+    lazy var firstButton: UIButton = { [unowned self] in
+        let firstButton = UIButton()
+        firstButton.backgroundColor = UIColor(redValue: 10, greenValue: 118, blueValue: 233, alpha: 0.9)
+        firstButton.frame = CGRect(x: 10, y: 0, width: 70, height: 44)
+        firstButton.layer.cornerRadius = 2
+        firstButton.layer.masksToBounds = true
+        firstButton.setTitleColor(.white, for: .normal)
+        firstButton.setTitleColor(.lightGray, for: .highlighted)
+        firstButton.setBackgroundImage(UIColor(redValue: 10, greenValue: 118, blueValue: 233, alpha: 0.9).toImage(), for: .selected)
+        firstButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        firstButton.addTarget(self, action: #selector(didClickedfirstBtn(_:)), for: .touchUpInside)
+        return firstButton
     }()
-
+    
+    lazy var secondButton: UIButton = { [unowned self] in
+        let secondButton = UIButton()
+        secondButton.backgroundColor = UIColor(redValue: 10, greenValue: 118, blueValue: 233, alpha: 0.9)
+        secondButton.frame = CGRect(x: UIScreen.ScreenWidth - 80, y: 0, width: 70, height: 44)
+        secondButton.layer.cornerRadius = 2
+        secondButton.layer.masksToBounds = true
+        secondButton.setTitleColor(.white, for: .normal)
+        secondButton.setTitleColor(.lightGray, for: .highlighted)
+        secondButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        secondButton.addTarget(self, action: #selector(didClickedSeconedBtn(_:)), for: .touchUpInside)
+        return secondButton
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -33,12 +52,19 @@ class PreviewBottomBar: UIView {
     }
     
     private func setupView() {
+        
         backgroundColor = UIColor(colorLiteralRed: 0.15, green: 0.15, blue: 0.15, alpha: 0.9)
-        addSubview(self.doneButton)
+        
+        addSubview(firstButton)
+        addSubview(secondButton)
     }
     
-    func clickDoneButton(_ button: UIButton) {
-        didClickDoneButton?()
+    @objc private func didClickedfirstBtn(_ button: UIButton) {
+        didClickedFirst?(button)
+    }
+    
+    @objc private func didClickedSeconedBtn(_ button: UIButton) {
+        didClickedSecond?(button)
     }
 
 }

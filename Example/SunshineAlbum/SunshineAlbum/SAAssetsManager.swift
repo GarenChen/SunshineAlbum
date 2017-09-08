@@ -68,23 +68,41 @@ class SAAssetsManager: NSObject {
 	///   - asset: PHAsset
 	///   - isHightQuality: 是否是高清图
 	///   - complition: 回调
-	func fetchResultImage(asset: PHAsset, isHightQuality: Bool, complition: @escaping (UIImage) -> Void) {
+    func fetchResultImage(asset: PHAsset, isHightQuality: Bool = true, isFullImage: Bool = false, complition: @escaping (UIImage) -> Void) {
 		
-		let scale = isHightQuality ? UIScreen.ScreenScale : 1.0
-		let aspectRatio = CGFloat(asset.pixelWidth) / CGFloat(asset.pixelHeight)
-		let pixelWidth = UIScreen.ScreenWidth * scale
-		let pixelHeight = UIScreen.ScreenWidth / aspectRatio
-		
-		let size = CGSize(width: pixelWidth, height: pixelHeight)
-		
+        var size: CGSize = .zero
+        
+        if !isFullImage {
+            let scale = isHightQuality ? UIScreen.ScreenScale : 1.0
+            let aspectRatio = CGFloat(asset.pixelWidth) / CGFloat(asset.pixelHeight)
+            let pixelWidth = UIScreen.ScreenWidth * scale
+            let pixelHeight = UIScreen.ScreenWidth / aspectRatio
+            size = CGSize(width: pixelWidth, height: pixelHeight)
+        }
+
 		let options = PHImageRequestOptions()
-		options.resizeMode = .fast
+		options.resizeMode = .exact
 		options.isNetworkAccessAllowed = false
 		options.deliveryMode = isHightQuality ? .highQualityFormat : .fastFormat
 		options.isSynchronous = true
 		
 		fetchImage(asset: asset, targetSize: size, options: options, success: complition)
 	}
+    
+    /// 获取照片原图
+    ///
+    /// - Parameters:
+    ///   - asset: PHAsset
+    ///   - complition: 回调
+    func fetchPreviewImage(asset: PHAsset, complition: @escaping (UIImage) -> Void) {
+        let size = CGSize.zero
+        let options = PHImageRequestOptions()
+        options.resizeMode = .exact
+        options.isNetworkAccessAllowed = false
+        options.deliveryMode = .highQualityFormat
+        options.isSynchronous = false
+        fetchImage(asset: asset, targetSize: size, options: options, success: complition)
+    }
 	
 	/// 获取照片预览图
 	///
@@ -142,7 +160,26 @@ class SAAssetsManager: NSObject {
 		}
 		
 	}
-	
+    
+    /// 获取照片原数据
+    ///
+    /// - Parameters:
+    ///   - asset: PHAsset
+    ///   - complition: 回调
+    func caculateOriginalDataLength(asset: PHAsset, complition: @escaping (Data, String) -> Void) {
+        let options = PHImageRequestOptions()
+        options.resizeMode = .exact
+        options.isNetworkAccessAllowed = false
+        imageManager.requestImageData(for: asset, options: options) { (data, string, orientation, info) in
+            debuglog("data: \(String(describing: data)), string: \(String(describing: string)), orientation:\(orientation), info: \(String(describing: info))")
+            guard let data = data else { return }
+            let length = (NSData(data: data).length) / (1024 * 1024)
+            let lenghtStr = String(format: "%.2fM", length)
+            complition(data, lenghtStr)
+        }
+    }
+    
+    /// 获取视频资源
 	func fetchAVPlayerItem(asset: PHAsset, success:@escaping (AVPlayerItem) -> Void, failure: (([AnyHashable: Any]?) -> Void)? = nil) {
 		let options = PHVideoRequestOptions()
 		options.isNetworkAccessAllowed = false
