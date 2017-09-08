@@ -17,7 +17,7 @@ import UIKit
 extension  UIViewController: DismissAction {
     
     @objc var rightCancleItem: UIBarButtonItem {
-        return UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissAction))
+		return UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(dismissAction))
     }
     
     @objc func dismissAction() {

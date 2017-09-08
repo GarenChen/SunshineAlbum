@@ -140,9 +140,9 @@ class PreviewVideoController: AVPlayerViewController, PreviewContentControllerTy
     }
     
     func clickDoneButton() {
-        guard let photoSelectorCtr = navigationController as? PhotoSelectorController else { return }
         guard let model = assetModel else { return }
-        photoSelectorCtr.didFinishSelectedVideo(assetModel: model)
+        SASelectionManager.shared.selectedAssets.append(model)
+		(navigationController as? SunshineAlbumController)?.didFinishSelected()
     }
     
 }

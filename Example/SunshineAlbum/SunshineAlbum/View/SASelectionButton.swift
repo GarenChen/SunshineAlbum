@@ -24,7 +24,8 @@ class SASelectionButton: UIButton {
 	
 	var index: Int = 0 {
 		didSet {
-			setTitle("\(index)", for: .selected)
+			let indexStr: String? = (index > 0) ? "\(index)" : nil
+			setTitle(indexStr, for: .selected)
 		}
 	}
 	

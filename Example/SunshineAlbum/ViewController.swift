@@ -28,17 +28,16 @@ class ViewController: UIViewController {
 	}
 	
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		let ctr = PhotoSelectorController(showAlbumList: false, containVideo: true) { (type) in
+		let ctr = SunshineAlbumController(showAlbumList: false, containVideo: true) { (type) in
 			switch type {
 			case .photo(let images):
-				
+				var y: CGFloat = 0
 				images.forEach({ (image) in
-					let imageView = UIImageView()
+					let imageView = UIImageView(frame: CGRect(x: 0, y: y, width: UIScreen.ScreenWidth, height: 80))
 					imageView.image = image
-					imageView.frame = self.view.bounds
 					imageView.contentMode = .scaleAspectFit
 					self.view.addSubview(imageView)
-					sleep(3)
+					y += 80
 				})
 				
 			case .video(_):

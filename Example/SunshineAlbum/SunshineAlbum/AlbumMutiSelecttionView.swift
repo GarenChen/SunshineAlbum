@@ -102,13 +102,18 @@ class AlbumMutiSelecttionView: UICollectionView, UICollectionViewDelegate, UICol
 		
 		cell.model = assetModel
 		
+		let index = selectedModel.index { (model) -> Bool in
+			return model.identifier == assetModel.identifier
+		}
+		cell.showIndex = (index == nil) ? 0 : index! + 1
+		
         if assetModel.type == .image {
             cell.showMask = !assetModel.isSelected && needMaskUnSelectedItems
         } else {
             cell.showMask = !selectedModel.isEmpty
         }
 
-        cell.didClickSelectedButton = { [weak self] (isSelected, model) in
+        cell.didClickSelectedButton = { [weak self, weak cell] (isSelected, model) in
             
             guard let `self` = self else { return }
             
@@ -123,6 +128,7 @@ class AlbumMutiSelecttionView: UICollectionView, UICollectionViewDelegate, UICol
             let index = self.selectedModel.index(where: { (selected) -> Bool in
                 return selected.identifier == model.identifier
             })
+			cell?.showIndex = (index == nil) ? 0 : index! + 1
             
             if isSelected && (index == nil) {
                 self.selectedModel.append(model)
@@ -136,7 +142,8 @@ class AlbumMutiSelecttionView: UICollectionView, UICollectionViewDelegate, UICol
 	// MARK: - delegate
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		collectionView.cellForItem(at: indexPath)?.isSelected = false
+		let cell = collectionView.cellForItem(at: indexPath) as? ThumbnailPhotoCell
+		cell?.isSelected = false
         
 		guard let albumModel = albumModel else { return }
         
@@ -146,7 +153,7 @@ class AlbumMutiSelecttionView: UICollectionView, UICollectionViewDelegate, UICol
             self.nearestController()?.showAlert(title: "最多只能选择\(self.maxSelectedCount)张照片",actions: ("确定", nil))
             return
         }
-        
+
         if !selectedModel.isEmpty && (assetModel.type !=  .image) {
             return
         }

@@ -28,4 +28,16 @@ extension UIScreen {
 		return UIScreen.main.bounds.size.height
 	}
 	
+	static var topLayoutHeight: CGFloat {
+		return 64
+	}
+	
+	static var navigationtHeight: CGFloat {
+		return 44
+	}
+	
+	static var bottomBarHeight: CGFloat {
+		return 48
+	}
+	
 }

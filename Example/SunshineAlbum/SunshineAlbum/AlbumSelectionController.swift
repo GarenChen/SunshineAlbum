@@ -12,20 +12,23 @@ class AlbumSelectionController: UIViewController {
 
 	var albumModel: AlbumsModel?
 	
-    var isFirstShow: Bool = true
+    private var isFirstShow: Bool = true
     
 	private lazy var selectionView = AlbumMutiSelecttionView()
     
     private lazy var customBottombar: PreviewBottomBar = { [unowned self] in
-        let bar  = PreviewBottomBar(frame: CGRect(x: 0, y: UIScreen.ScreenHeight - 44, width: UIScreen.ScreenWidth, height: 44))
-        bar.didClickDoneButton = { [weak self] in
-            self?.clickDoneButton()
-        }
+        let bar  = PreviewBottomBar(frame: CGRect(x: 0, y: UIScreen.ScreenHeight - UIScreen.bottomBarHeight, width: UIScreen.ScreenWidth, height: UIScreen.bottomBarHeight))
+		bar.firstButton.setTitle("预览", for: .normal)
+		bar.didClickedFirst = { [weak self] sender in
+			self?.clickToPreview()
+		}
+		
+		bar.didClickedSecond = { [weak self] _ in
+			self?.finishSelected()
+		}
+		
         return bar
     }()
-    
-    var maxSelectedCount: Int = 9
-
 	convenience init(model: AlbumsModel) {
 		self.init()
 		self.albumModel = model
@@ -52,8 +55,8 @@ class AlbumSelectionController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let photoSelectorCtr = navigationController as? PhotoSelectorController else { return }
-        selectionView.selectedModel = photoSelectorCtr.selectedModels
+
+        selectionView.selectedModel = SASelectionManager.shared.selectedAssets
         
         guard let albumModel = albumModel else { return }
         if isFirstShow {
@@ -67,55 +70,50 @@ class AlbumSelectionController: UIViewController {
 		view.addSubview(selectionView)
         
 		selectionView.albumModel = albumModel
-		selectionView.maxSelectedCount = 4
+		selectionView.maxSelectedCount = SASelectionManager.shared.maxSelectedCount
 		selectionView.didSelectedCell = { [weak self] (indexPath, assetModel) in
             
 			guard let `self` = self else { return }
             guard let albumModel = self.albumModel else { return }
-            
-            if assetModel.type == .image {
-                let previewCtr = SAAssetPreviewController(assetModels: albumModel.assetModels, selectedItem: indexPath.item)
-//				(albumsModel: albumModel, selectedItem: indexPath.item)
-//                previewCtr.maxSelectedCount = self.maxSelectedCount
-                self.navigationController?.pushViewController(previewCtr, animated: true)
-            } else {
-                let previewCtr = PreviewVideoController(assetModel: assetModel)
-                previewCtr.hidesBottomBarWhenPushed = true
-                self.navigationController?.pushViewController(previewCtr, animated: true)
-            }
-            
+			
+			let previewCtr = SAAssetPreviewController(assetModels: albumModel.assetModels, selectedItem: indexPath.item)
+			self.navigationController?.pushViewController(previewCtr, animated: true)
 		}
         
         selectionView.selectedModelsDidChange = { [weak self] selectedModels in
             self?.selectedModelsDidChange(selectedModels)
         }
 		
-		selectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - 44)
+		selectionView.frame = CGRect(x: 0, y: UIScreen.topLayoutHeight, width: UIScreen.ScreenWidth, height: UIScreen.ScreenHeight - UIScreen.topLayoutHeight - UIScreen.bottomBarHeight)
         
         view.addSubview(customBottombar)
         refreshCustomBars()
 	}
 
-    func selectedModelsDidChange(_ selectedModel: [AssetModel]) {
+    private func selectedModelsDidChange(_ selectedModel: [AssetModel]) {
         
         refreshCustomBars()
         
-        guard let photoSelectorCtr = navigationController as? PhotoSelectorController else { return }
-        photoSelectorCtr.selectedModels = selectedModel
+        SASelectionManager.shared.selectedAssets = selectedModel
     }
     
     private func refreshCustomBars() {
-
-        customBottombar.doneButton.isEnabled = !selectionView.selectedModel.isEmpty
+		
+		customBottombar.firstButton.isEnabled = !selectionView.selectedModel.isEmpty
+        customBottombar.secondButton.isEnabled = !selectionView.selectedModel.isEmpty
         
         let doneButtonTitle = selectionView.selectedModel.isEmpty ? "完成" : "完成(\(selectionView.selectedModel.count))"
-        customBottombar.doneButton.setTitle(doneButtonTitle, for: .normal)
+        customBottombar.secondButton.setTitle(doneButtonTitle, for: .normal)
     }
     
-    func clickDoneButton() {
-        guard let photoSelectorCtr = navigationController as? PhotoSelectorController else { return }
-        photoSelectorCtr.didFinishSelectedPhotos()
+	private func finishSelected() {
+        (navigationController as? SunshineAlbumController)?.didFinishSelected()
     }
+	
+	private func clickToPreview() {
+		let previewCtr = SAAssetPreviewController(assetModels: SASelectionManager.shared.selectedAssets, selectedItem: 0)
+		self.navigationController?.pushViewController(previewCtr, animated: true)
+	}
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

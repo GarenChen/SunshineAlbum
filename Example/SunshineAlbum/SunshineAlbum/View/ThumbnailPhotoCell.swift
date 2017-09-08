@@ -17,7 +17,9 @@ class ThumbnailPhotoCell: UICollectionViewCell {
 			selectedButton.isSelected = model.isSelected
 			selectedButton.isHidden = model.type != .image
 			videoIcon.isHidden = (model.type != .video)
-
+			
+			showIndex = 0
+			
 			durationLabel.text = (model.type == .video) ? "\(Int(model.videoDuration) / 60):\(Int(model.videoDuration) % 60)" : nil
 			
 			thumbnailView.image = UIImage(named: "icon_album_placeholder")

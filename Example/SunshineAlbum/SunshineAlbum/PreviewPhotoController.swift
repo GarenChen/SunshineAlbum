@@ -19,7 +19,7 @@ class PreviewPhotoController: UIViewController, PreviewContentControllerType, UI
     var tapConent: (() -> Void)?
     
     private lazy var contentView: UIScrollView = { [unowned self] in
-        let contentview = UIScrollView()
+        let contentview = UIScrollView(frame: self.view.bounds)
         contentview.maximumZoomScale = 2.5
         contentview.minimumZoomScale = 1
         contentview.contentMode = .scaleAspectFit
@@ -28,7 +28,8 @@ class PreviewPhotoController: UIViewController, PreviewContentControllerType, UI
     }()
     
     private lazy var imageView: UIImageView = { [unowned self] in
-        let imageView = UIImageView()
+        let imageView = UIImageView(frame: self.view.bounds)
+		imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -56,7 +57,11 @@ class PreviewPhotoController: UIViewController, PreviewContentControllerType, UI
         
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapImageView(_:)))
         doubleTap.numberOfTapsRequired = 2
+		
         view.addGestureRecognizer(doubleTap)
+		
+		view.addSubview(contentView)
+		contentView.addSubview(imageView)
     }
     
     private func fetchImageAndDisplay() {
