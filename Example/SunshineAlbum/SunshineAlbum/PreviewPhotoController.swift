@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PreviewPhotoController: UIViewController, PreviewContentControllerType, UIScrollViewDelegate {
+class PreviewPhotoController: UIViewController, PreviewContentType, UIScrollViewDelegate {
 
     var assetModel: AssetModel? {
         didSet{

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-protocol PreviewContentControllerType: class {
+protocol PreviewContentType: class {
     
     var tapConent: (() -> Void)? {get set}
     

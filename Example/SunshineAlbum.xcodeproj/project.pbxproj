@@ -15,6 +15,7 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		C862A9601F62445C002722A0 /* SunshineAlbumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862A95F1F62445C002722A0 /* SunshineAlbumController.swift */; };
+		C862A9621F629B7B002722A0 /* SAUIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862A9611F629B7B002722A0 /* SAUIConfig.swift */; };
 		C8CBC2711F60F794001D13BA /* AlbumMutiSelecttionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CBC2581F60F794001D13BA /* AlbumMutiSelecttionView.swift */; };
 		C8CBC2721F60F794001D13BA /* AlbumSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CBC2591F60F794001D13BA /* AlbumSelectionController.swift */; };
 		C8CBC2731F60F794001D13BA /* AlbumsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CBC25A1F60F794001D13BA /* AlbumsListController.swift */; };
@@ -76,6 +77,7 @@
 		B57C6FF892DFE6AAF896FEC8 /* Pods-SunshineAlbum_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SunshineAlbum_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SunshineAlbum_Example/Pods-SunshineAlbum_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		BB191C513FECF94D61B36A8B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		C862A95F1F62445C002722A0 /* SunshineAlbumController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SunshineAlbumController.swift; sourceTree = "<group>"; };
+		C862A9611F629B7B002722A0 /* SAUIConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SAUIConfig.swift; sourceTree = "<group>"; };
 		C8CBC2581F60F794001D13BA /* AlbumMutiSelecttionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumMutiSelecttionView.swift; sourceTree = "<group>"; };
 		C8CBC2591F60F794001D13BA /* AlbumSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumSelectionController.swift; sourceTree = "<group>"; };
 		C8CBC25A1F60F794001D13BA /* AlbumsListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsListController.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				C8CBC2911F6136A8001D13BA /* SAAssetPreviewController.swift */,
 				C8CBC2611F60F794001D13BA /* SAAssetsManager.swift */,
 				C8CBC2621F60F794001D13BA /* SASelectionManager.swift */,
+				C862A9611F629B7B002722A0 /* SAUIConfig.swift */,
 				C8CBC25B1F60F794001D13BA /* Model */,
 				C8CBC2641F60F794001D13BA /* Tools */,
 				C8CBC2681F60F794001D13BA /* View */,
@@ -509,6 +512,7 @@
 				C8CBC2921F6136A8001D13BA /* SAAssetPreviewController.swift in Sources */,
 				C8CBC29B1F6140F2001D13BA /* Bundle+Extension.swift in Sources */,
 				C8CBC27A1F60F794001D13BA /* SASelectionManager.swift in Sources */,
+				C862A9621F629B7B002722A0 /* SAUIConfig.swift in Sources */,
 				C8CBC2721F60F794001D13BA /* AlbumSelectionController.swift in Sources */,
 				C8CBC2941F613ECB001D13BA /* SANavigationBar.swift in Sources */,
 				C8CBC2741F60F794001D13BA /* AlbumsModel.swift in Sources */,

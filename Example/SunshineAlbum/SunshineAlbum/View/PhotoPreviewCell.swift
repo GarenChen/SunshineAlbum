@@ -8,13 +8,13 @@
 
 import UIKit
 
-class PhotoPreviewCell: UICollectionViewCell, UIScrollViewDelegate {
+class PhotoPreviewCell: UICollectionViewCell, PreviewContentType, UIScrollViewDelegate {
     
     @IBOutlet private weak var contentScrollView: UIScrollView!
 
     @IBOutlet private weak var contentImageView: UIImageView!
     
-    var clickImage: (() -> Void)?
+    var tapConent: (() -> Void)?
     
     var model: AssetModel? {
         didSet {
@@ -48,7 +48,7 @@ class PhotoPreviewCell: UICollectionViewCell, UIScrollViewDelegate {
     }
     
     func singleTapImageView() {
-        clickImage?()
+        tapConent?()
     }
     
     func doubleTapImageView(_ gesture: UITapGestureRecognizer) {

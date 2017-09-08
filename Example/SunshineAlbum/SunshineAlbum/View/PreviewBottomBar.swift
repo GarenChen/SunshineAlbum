@@ -16,7 +16,7 @@ class PreviewBottomBar: UIView {
     
     lazy var firstButton: UIButton = { [unowned self] in
         let firstButton = UIButton()
-        firstButton.backgroundColor = UIColor(redValue: 10, greenValue: 118, blueValue: 233, alpha: 0.9)
+        firstButton.backgroundColor = SAUIConfig.shared.tintColor
         firstButton.frame = CGRect(x: 10, y: 0, width: 70, height: 44)
         firstButton.layer.cornerRadius = 2
         firstButton.layer.masksToBounds = true
@@ -30,12 +30,11 @@ class PreviewBottomBar: UIView {
     
     lazy var secondButton: UIButton = { [unowned self] in
         let secondButton = UIButton()
-        secondButton.backgroundColor = UIColor(redValue: 10, greenValue: 118, blueValue: 233, alpha: 0.9)
+        secondButton.backgroundColor = SAUIConfig.shared.tintColor
         secondButton.frame = CGRect(x: UIScreen.ScreenWidth - 80, y: 0, width: 70, height: 44)
         secondButton.layer.cornerRadius = 2
         secondButton.layer.masksToBounds = true
         secondButton.setTitleColor(.white, for: .normal)
-        secondButton.setTitleColor(.lightGray, for: .highlighted)
         secondButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         secondButton.addTarget(self, action: #selector(didClickedSeconedBtn(_:)), for: .touchUpInside)
         return secondButton

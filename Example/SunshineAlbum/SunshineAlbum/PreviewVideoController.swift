@@ -11,7 +11,7 @@ import AVFoundation
 import AVKit
 import Photos
 
-class PreviewVideoController: AVPlayerViewController, PreviewContentControllerType {
+class PreviewVideoController: AVPlayerViewController, PreviewContentType {
 
     var assetModel: AssetModel?
     

@@ -48,7 +48,7 @@ class SASelectionButton: UIButton {
 		layer.borderColor = UIColor.white.cgColor
 		
 		let normalColor = UIColor(white: 0.7, alpha: 0.3)
-		let selectedColor = UIColor(redValue: 10, greenValue: 118, blueValue: 233, alpha: 0.9)
+		let selectedColor = SAUIConfig.shared.tintColor
 		setBackgroundImage(normalColor.toImage(), for: .normal)
 		setBackgroundImage(selectedColor.toImage(), for: .selected)
 		

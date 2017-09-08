@@ -8,16 +8,16 @@
 
 import UIKit
 
-class SAAssetPreviewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
 	var assetModels: [AssetModel] = []
 	
 	var currentItemIndex: Int = 0
     
-    private var hideBars: Bool = false {
+    private var isBarsHidden: Bool = false {
         didSet {
-            navigationController?.setNavigationBarHidden(hideBars, animated: false)
-			customBottomBar.isHidden = hideBars
+            navigationController?.setNavigationBarHidden(isBarsHidden, animated: false)
+			customBottomBar.isHidden = isBarsHidden
         }
     }
     
@@ -44,14 +44,31 @@ class SAAssetPreviewController: UIPageViewController, UIPageViewControllerDataSo
         return bar
     }()
 	
+	private lazy var collectionView: UICollectionView = { [unowned self] in
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		layout.minimumInteritemSpacing = 0
+		layout.minimumLineSpacing = 0
+		layout.itemSize = CGSize(width: UIScreen.ScreenWidth + 20, height: UIScreen.ScreenHeight)
+		
+		let coll = UICollectionView(frame: CGRect(x: -10, y: 0, width: UIScreen.ScreenWidth + 20, height: UIScreen.ScreenHeight), collectionViewLayout: layout)
+		coll.isPagingEnabled = true
+		coll.showsHorizontalScrollIndicator = false
+		coll.scrollsToTop = false
+		coll.dataSource = self
+		coll.delegate = self
+		coll.register(UINib(nibName: PhotoPreviewCell.reusedId, bundle: nil), forCellWithReuseIdentifier: PhotoPreviewCell.reusedId)
+		return coll
+	}()
+	
 	convenience init(assetModels: [AssetModel], selectedItem: Int) {
-		self.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey: NSNumber(integerLiteral: 10)])
+		self.init()
 		self.assetModels = assetModels
 		self.currentItemIndex = selectedItem
 	}
 	
-	override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
-		super.init(transitionStyle: style, navigationOrientation: navigationOrientation, options: options)
+	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -74,45 +91,21 @@ class SAAssetPreviewController: UIPageViewController, UIPageViewControllerDataSo
     
     private func setupViews() {
         
-        dataSource = self
-        delegate = self
+        collectionView.dataSource = self
+        collectionView.delegate = self
 		
 		automaticallyAdjustsScrollViewInsets = false
 		
-        let firstCtr = controllerAtIndex(currentItemIndex) as? UIViewController
-        
-        let controllers = (firstCtr != nil) ? [firstCtr!] : Array<UIViewController>()
-        
-        setViewControllers(controllers, direction: .forward, animated: false, completion: nil)
-		
+		view.addSubview(collectionView)
 		view.addSubview(customBottomBar)
 		navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
 		
 		refreshBars()
 		refreshFullImageButton()
+		
+		collectionView.scrollToItem(at: IndexPath(item: currentItemIndex, section: 0), at: .left, animated: false)
+		collectionView.backgroundColor = .black
     }
-
-	private func controllerAtIndex(_ index: Int) -> PreviewContentControllerType? {
-
-		guard index > 0 && index < self.assetModels.count else { return nil }
-		
-		let assetModel = self.assetModels[index]
-		
-		switch assetModel.type {
-		case .image:
-			let photoCtr = PreviewPhotoController(assetModel: assetModel)
-			photoCtr.tapConent = { [weak self] in
-				guard let `self`  = self else {
-					return
-				}
-				self.hideBars = !self.hideBars
-			}
-			return photoCtr
-		default:
-			let videoCtr = PreviewVideoController(assetModel: assetModel)
-			return videoCtr
-		}
-	}
 	
     @objc private func didClickedRightItem(_ sender: UIButton) {
 		
@@ -186,47 +179,38 @@ class SAAssetPreviewController: UIPageViewController, UIPageViewControllerDataSo
 		}
 		(navigationController as? SunshineAlbumController)?.didFinishSelected()
     }
-    
-    
-	// MARK: - UIPageViewControllerDataSource, UIPageViewControllerDelegate
-	func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-		
-		guard currentItemIndex > 0 else {
-			return nil
-		}
-		currentItemIndex -= 1
-		
-		let previousCtr = controllerAtIndex(currentItemIndex)
-        previousCtr?.recoverSubview()
-		return previousCtr as? UIViewController
+	
+	// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
+	
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return assetModels.count
 	}
 	
-	func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
-		guard currentItemIndex < assetModels.count - 1 else {
-			return nil
+		let model = assetModels[indexPath.item]
+		
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoPreviewCell.reusedId, for: indexPath) as! PhotoPreviewCell
+		cell.model = model
+		cell.tapConent = { [weak self] in
+			guard let `self` = self else { return }
+			self.isBarsHidden = !self.isBarsHidden
+			self.refreshBars()
 		}
-		currentItemIndex += 1
-		
-        let nextPhotoCtr = controllerAtIndex(currentItemIndex + 1)
-        nextPhotoCtr?.recoverSubview()
-        return nextPhotoCtr as? UIViewController
+		return cell
 	}
 	
-	func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-		if completed {
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		(cell as? PreviewContentType)?.recoverSubview()
+	}
+	
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		let offsetWidth = scrollView.contentOffset.x + (UIScreen.ScreenWidth + 20) * 0.5
+		let currentItem = Int(offsetWidth / (UIScreen.ScreenWidth + 20))
+		if currentItemIndex != currentItem {
+			currentItemIndex = currentItem
 			refreshBars()
-			refreshFullImageButton()
 		}
 	}
-	
-//	func presentationCount(for pageViewController: UIPageViewController) -> Int {
-//		return 10
-//	}
-//	
-//	func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-//		return 1
-//	}
-	
 	
 }
