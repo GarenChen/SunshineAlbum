@@ -16,7 +16,7 @@ class PreviewPhotoController: UIViewController, PreviewContentType, UIScrollView
         }
     }
     
-    var tapConent: (() -> Void)?
+    var tapConentToHideBar: ((Bool) -> Void)?
     
     private lazy var contentView: UIScrollView = { [unowned self] in
         let contentview = UIScrollView(frame: self.view.bounds)
@@ -87,7 +87,7 @@ class PreviewPhotoController: UIViewController, PreviewContentType, UIScrollView
     }
     
     @objc private func singleTapImageView() {
-        tapConent?()
+        tapConentToHideBar?(true)
     }
     
     @objc private func doubleTapImageView(_ gesture: UITapGestureRecognizer) {

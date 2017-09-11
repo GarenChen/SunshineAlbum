@@ -11,7 +11,7 @@ import UIKit
 
 protocol PreviewContentType: class {
     
-    var tapConent: (() -> Void)? {get set}
+    var tapConentToHideBar: ((Bool) -> Void)? {get set}
     
     func recoverSubview()
 }

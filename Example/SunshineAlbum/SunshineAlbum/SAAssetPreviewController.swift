@@ -57,7 +57,8 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
 		coll.scrollsToTop = false
 		coll.dataSource = self
 		coll.delegate = self
-		coll.register(UINib(nibName: PhotoPreviewCell.reusedId, bundle: nil), forCellWithReuseIdentifier: PhotoPreviewCell.reusedId)
+		coll.register(UINib(nibName: PhotoPreviewCell.reusedId, bundle: Bundle.currentResourceBundle), forCellWithReuseIdentifier: PhotoPreviewCell.reusedId)
+        coll.register(UINib(nibName: VideoPreviewCell.reusedId, bundle: Bundle.currentResourceBundle), forCellWithReuseIdentifier: VideoPreviewCell.reusedId)
 		return coll
 	}()
 	
@@ -90,6 +91,8 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     private func setupViews() {
+        
+        title = " "
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -160,20 +163,39 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
 	private func refreshBars() {
 		guard currentItemIndex < self.assetModels.count else { return }
 		let assetModel = self.assetModels[currentItemIndex]
+        
+        if assetModel.type == .video {
+            rightButton.isHidden = true
+            customBottomBar.showType = .video
+            let isVideoTooLong = assetModel.videoDuration > SASelectionManager.shared.maxSelectedVideoDuration
+            customBottomBar.decLabel.text = isVideoTooLong ? "只能选择不超过10秒的视频文件！" : nil
+            customBottomBar.secondButton.setTitle(isVideoTooLong ? "编辑" : "完成", for: .normal)
+        } else {
+            
+            let index = SASelectionManager.shared.selectedAssets.index { (model) -> Bool in
+                return assetModel.identifier == model.identifier
+            }
+            rightButton.index = (index == nil) ? 0 : index! + 1
+            rightButton.isSelected = assetModel.isSelected
+            rightButton.isHidden = false
+            
+            customBottomBar.showType = .photo
+            let doneButtonTitle = SASelectionManager.shared.selectedAssets.isEmpty ? "完成" : "完成(\(SASelectionManager.shared.selectedAssets.count))"
+            customBottomBar.secondButton.setTitle(doneButtonTitle, for: .normal)
+        }
 		
-		let index = SASelectionManager.shared.selectedAssets.index { (model) -> Bool in
-			return assetModel.identifier == model.identifier
-		}
-		rightButton.index = (index == nil) ? 0 : index! + 1
-		rightButton.isSelected = assetModel.isSelected
-		
-		let doneButtonTitle = SASelectionManager.shared.selectedAssets.isEmpty ? "完成" : "完成(\(SASelectionManager.shared.selectedAssets.count))"
-		customBottomBar.secondButton.setTitle(doneButtonTitle, for: .normal)
 	}
 	
     private func finishSelected() {
 		guard currentItemIndex < self.assetModels.count else { return }
 		let assetModel = self.assetModels[currentItemIndex]
+        
+        guard assetModel.type == .image || assetModel.videoDuration <= SASelectionManager.shared.maxSelectedVideoDuration else {
+            let cropCtr = VideoCropController(assetModel: assetModel)
+            navigationController?.pushViewController(cropCtr, animated: false)
+            return
+        }
+        
 		if SASelectionManager.shared.selectedAssets.isEmpty {
 			SASelectionManager.shared.selectedAssets.append(assetModel)
 		}
@@ -189,20 +211,36 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let model = assetModels[indexPath.item]
+        
+        if model.type == .video {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoPreviewCell.reusedId, for: indexPath) as! VideoPreviewCell
+            cell.assetModel = model
+            cell.tapConentToHideBar = { [weak self] isHidden in
+                guard let `self` = self else { return }
+                self.isBarsHidden = isHidden
+                self.refreshBars()
+            }
+            return cell
+        }
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoPreviewCell.reusedId, for: indexPath) as! PhotoPreviewCell
 		cell.model = model
-		cell.tapConent = { [weak self] in
+		cell.tapConentToHideBar = { [weak self] isHidden in
 			guard let `self` = self else { return }
-			self.isBarsHidden = !self.isBarsHidden
+			self.isBarsHidden = isHidden
 			self.refreshBars()
 		}
 		return cell
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		(cell as? PreviewContentType)?.recoverSubview()
+        
+        for cell in collectionView.visibleCells {
+            (cell as? PreviewContentType)?.recoverSubview()
+        }
+
 	}
+    
 	
 	func scrollViewDidScroll(_ scrollView: UIScrollView) {
 		let offsetWidth = scrollView.contentOffset.x + (UIScreen.ScreenWidth + 20) * 0.5

@@ -8,20 +8,31 @@
 
 import UIKit
 
+enum PreviewBottomBarType {
+    case photo
+    case video
+}
+
 class PreviewBottomBar: UIView {
     
     var didClickedFirst: ((UIButton) -> Void)?
     
     var didClickedSecond:  ((UIButton) -> Void)?
     
+    var showType: PreviewBottomBarType = .photo {
+        didSet {
+            firstButton.isHidden = showType == .video
+            decLabel.isHidden = showType == .photo
+        }
+    }
+    
     lazy var firstButton: UIButton = { [unowned self] in
         let firstButton = UIButton()
-        firstButton.backgroundColor = SAUIConfig.shared.tintColor
-        firstButton.frame = CGRect(x: 10, y: 0, width: 70, height: 44)
+        firstButton.frame = CGRect(x: 32, y: 8, width: 66, height: 32)
         firstButton.layer.cornerRadius = 2
         firstButton.layer.masksToBounds = true
-        firstButton.setTitleColor(.white, for: .normal)
-        firstButton.setTitleColor(.lightGray, for: .highlighted)
+        firstButton.setTitleColor(SAUIConfig.shared.normalTextColor, for: .normal)
+        firstButton.setTitleColor(SAUIConfig.shared.disableTextColor, for: .disabled)
         firstButton.setBackgroundImage(UIColor(redValue: 10, greenValue: 118, blueValue: 233, alpha: 0.9).toImage(), for: .selected)
         firstButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         firstButton.addTarget(self, action: #selector(didClickedfirstBtn(_:)), for: .touchUpInside)
@@ -31,13 +42,24 @@ class PreviewBottomBar: UIView {
     lazy var secondButton: UIButton = { [unowned self] in
         let secondButton = UIButton()
         secondButton.backgroundColor = SAUIConfig.shared.tintColor
-        secondButton.frame = CGRect(x: UIScreen.ScreenWidth - 80, y: 0, width: 70, height: 44)
+        secondButton.frame = CGRect(x: UIScreen.ScreenWidth - 76, y: 8, width: 66, height: 32)
         secondButton.layer.cornerRadius = 2
         secondButton.layer.masksToBounds = true
-        secondButton.setTitleColor(.white, for: .normal)
+        secondButton.setTitleColor(SAUIConfig.shared.normalTextColor, for: .normal)
+        secondButton.setTitleColor(SAUIConfig.shared.disableColor, for: .disabled)
+        secondButton.setBackgroundImage(SAUIConfig.shared.buttonDisableColor.toImage(), for: .disabled)
         secondButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         secondButton.addTarget(self, action: #selector(didClickedSeconedBtn(_:)), for: .touchUpInside)
         return secondButton
+    }()
+    
+    lazy var decLabel: UILabel = { [unowned self] in
+        let decLabel = UILabel()
+        decLabel.textColor = SAUIConfig.shared.lightGrayTextColor
+        decLabel.font = UIFont.systemFont(ofSize: 14)
+        decLabel.textAlignment = .left
+        decLabel.frame = CGRect(x: 10, y: 8, width: UIScreen.ScreenWidth - 86, height: 32)
+        return decLabel
     }()
     
     override init(frame: CGRect) {
@@ -55,7 +77,11 @@ class PreviewBottomBar: UIView {
         backgroundColor = UIColor(colorLiteralRed: 0.15, green: 0.15, blue: 0.15, alpha: 0.9)
         
         addSubview(firstButton)
+        addSubview(decLabel)
         addSubview(secondButton)
+        
+        firstButton.isHidden = showType == .video
+        decLabel.isHidden = showType == .photo
     }
     
     @objc private func didClickedfirstBtn(_ button: UIButton) {

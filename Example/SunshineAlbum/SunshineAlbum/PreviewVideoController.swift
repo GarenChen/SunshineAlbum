@@ -19,7 +19,7 @@ class PreviewVideoController: AVPlayerViewController, PreviewContentType {
     
     var playItem: AVPlayerItem?
     
-    var tapConent: (() -> Void)?
+    var tapConentToHideBar: ((Bool) -> Void)?
     
     private lazy var customBottombar: PreviewBottomBar = { [unowned self] in
         let bar  = PreviewBottomBar(frame: CGRect(x: 0, y: UIScreen.ScreenHeight - 44, width: UIScreen.ScreenWidth, height: 44))

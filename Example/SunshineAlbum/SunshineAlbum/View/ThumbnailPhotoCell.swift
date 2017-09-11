@@ -22,7 +22,7 @@ class ThumbnailPhotoCell: UICollectionViewCell {
 			
 			durationLabel.text = (model.type == .video) ? "\(Int(model.videoDuration) / 60):\(Int(model.videoDuration) % 60)" : nil
 			
-			thumbnailView.image = UIImage(named: "icon_album_placeholder")
+			thumbnailView.image = UIImage(named: "icon_album_placeholder", in: Bundle.currentResourceBundle, compatibleWith: nil)
 			
 			SAAssetsManager.shared.fetchThumbnailImage(asset: model.asset, width: 100 * UIScreen.ScreenScale, height: 100 * UIScreen.ScreenScale) { [weak self] (image) in
 				self?.thumbnailView.image = image

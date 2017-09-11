@@ -29,7 +29,7 @@ class AlbumsListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.register(UINib(nibName: AlbumsListCell.reusedId, bundle: nil), forCellReuseIdentifier: AlbumsListCell.reusedId)
+        tableView.register(UINib(nibName: AlbumsListCell.reusedId, bundle: Bundle.currentResourceBundle), forCellReuseIdentifier: AlbumsListCell.reusedId)
 
         tableView.rowHeight = 58
         tableView.separatorInset = .zero

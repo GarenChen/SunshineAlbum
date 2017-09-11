@@ -84,7 +84,7 @@ class AlbumMutiSelecttionView: UICollectionView, UICollectionViewDelegate, UICol
 		delegate = self
 		dataSource = self
 		
-		register(UINib(nibName: ThumbnailPhotoCell.reusedId, bundle: nil), forCellWithReuseIdentifier: ThumbnailPhotoCell.reusedId)
+		register(UINib(nibName: ThumbnailPhotoCell.reusedId, bundle: Bundle.currentResourceBundle), forCellWithReuseIdentifier: ThumbnailPhotoCell.reusedId)
 	}
 	
 	// MARK: - data source

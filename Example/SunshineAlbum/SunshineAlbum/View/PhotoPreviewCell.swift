@@ -14,7 +14,9 @@ class PhotoPreviewCell: UICollectionViewCell, PreviewContentType, UIScrollViewDe
 
     @IBOutlet private weak var contentImageView: UIImageView!
     
-    var tapConent: (() -> Void)?
+    var tapConentToHideBar: ((Bool) -> Void)?
+    
+    private var hiddenBars: Bool = false
     
     var model: AssetModel? {
         didSet {
@@ -48,7 +50,8 @@ class PhotoPreviewCell: UICollectionViewCell, PreviewContentType, UIScrollViewDe
     }
     
     func singleTapImageView() {
-        tapConent?()
+        hiddenBars = !hiddenBars
+        tapConentToHideBar?(hiddenBars)
     }
     
     func doubleTapImageView(_ gesture: UITapGestureRecognizer) {

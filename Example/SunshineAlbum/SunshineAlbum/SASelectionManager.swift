@@ -9,19 +9,20 @@
 import Foundation
 import Photos
 
-class SASelectionManager {
+public class SASelectionManager {
 	
-	static let shared = SASelectionManager()
+	public static let shared = SASelectionManager()
 	
 	private init() {
 		
 	}
 	
-	var maxSelectedCount: Int = 9
+	public var maxSelectedCount: Int = 9
+    
+    public var maxSelectedVideoDuration: TimeInterval = 10
 	
 	/// 选中图片
 	lazy var selectedAssets: [AssetModel] = []
-	
 	
 	/// 大图缓存
 	lazy var imagesCaches: NSCache<AssetModel, UIImage> = {
