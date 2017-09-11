@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import SunshineAlbum
+import SunshineAlbum
 
 class ViewController: UIViewController {
 	
@@ -33,14 +33,15 @@ class ViewController: UIViewController {
 			case .photo(let images):
 				var y: CGFloat = 0
 				images.forEach({ (image) in
-					let imageView = UIImageView(frame: CGRect(x: 0, y: y, width: UIScreen.ScreenWidth, height: 80))
+					let imageView = UIImageView(frame: CGRect(x: 0, y: y, width: UIScreen.main.bounds.size.width, height: 80))
 					imageView.image = image
 					imageView.contentMode = .scaleAspectFit
 					self.view.addSubview(imageView)
 					y += 80
 				})
 				
-			case .video(_):
+			case .video(let url):
+                print("video: \(url)")
 				break
 			}
 		}

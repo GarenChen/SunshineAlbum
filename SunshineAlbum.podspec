@@ -30,8 +30,8 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'SunshineAlbum/**/*'
-
+  s.source_files = 'SunshineAlbum/Classes/**/*'
+  s.resource = 'SunshineAlbum/Resource/SunshineAlbum.bundle'
   # s.resource_bundles = {
   #   'SunshineAlbum' => ['SunshineAlbum/Assets/*.png']
   # }

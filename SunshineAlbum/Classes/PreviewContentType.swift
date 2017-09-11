@@ -1,5 +1,5 @@
 //
-//  PreviewContentControllerType.swift
+//  PreviewContentType.swift
 //  SunshineAlbum
 //
 //  Created by ChenGuangchuan on 2017/9/7.

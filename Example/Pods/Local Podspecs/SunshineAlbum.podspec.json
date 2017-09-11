@@ -18,5 +18,6 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "SunshineAlbum/**/*"
+  "source_files": "SunshineAlbum/Classes/**/*",
+  "resources": "SunshineAlbum/Resource/SunshineAlbum.bundle"
 }
