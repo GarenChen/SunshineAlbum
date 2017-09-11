@@ -14,6 +14,8 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		C81394081F665EDF00F6D024 /* VideoCropButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81394071F665EDF00F6D024 /* VideoCropButton.swift */; };
+		C82D27881F667A6B00FB24A5 /* VideoCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82D27871F667A6B00FB24A5 /* VideoCropViewController.swift */; };
 		C862A9601F62445C002722A0 /* SunshineAlbumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862A95F1F62445C002722A0 /* SunshineAlbumController.swift */; };
 		C862A9621F629B7B002722A0 /* SAUIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862A9611F629B7B002722A0 /* SAUIConfig.swift */; };
 		C8CBC2711F60F794001D13BA /* AlbumMutiSelecttionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CBC2581F60F794001D13BA /* AlbumMutiSelecttionView.swift */; };
@@ -80,6 +82,8 @@
 		AF36EF533C7D3A3B2DA5552D /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		B57C6FF892DFE6AAF896FEC8 /* Pods-SunshineAlbum_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SunshineAlbum_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SunshineAlbum_Example/Pods-SunshineAlbum_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		BB191C513FECF94D61B36A8B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		C81394071F665EDF00F6D024 /* VideoCropButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCropButton.swift; sourceTree = "<group>"; };
+		C82D27871F667A6B00FB24A5 /* VideoCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCropViewController.swift; sourceTree = "<group>"; };
 		C862A95F1F62445C002722A0 /* SunshineAlbumController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SunshineAlbumController.swift; sourceTree = "<group>"; };
 		C862A9611F629B7B002722A0 /* SAUIConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SAUIConfig.swift; sourceTree = "<group>"; };
 		C8CBC2581F60F794001D13BA /* AlbumMutiSelecttionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumMutiSelecttionView.swift; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 				CA9E8B831F659617008BA65E /* PlayerView.m */,
 				CA9E8B811F659617008BA65E /* SunshineAlbum_Example-Bridging-Header.h */,
 				CA9E8B8A1F65FF11008BA65E /* VideoCropController.swift */,
+				C82D27871F667A6B00FB24A5 /* VideoCropViewController.swift */,
 			);
 			path = SunshineAlbum;
 			sourceTree = "<group>";
@@ -296,6 +301,7 @@
 				C8CBC2871F60FAAD001D13BA /* SASelectionButton.swift */,
 				C8CBC2931F613ECB001D13BA /* SANavigationBar.swift */,
 				CACC99CD1F63DFA4004FB617 /* VideoPreviewCell.swift */,
+				C81394071F665EDF00F6D024 /* VideoCropButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -527,9 +533,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C82D27881F667A6B00FB24A5 /* VideoCropViewController.swift in Sources */,
 				C8CBC29F1F614C1F001D13BA /* PreviewVideoController.swift in Sources */,
 				C8CBC2921F6136A8001D13BA /* SAAssetPreviewController.swift in Sources */,
 				C8CBC29B1F6140F2001D13BA /* Bundle+Extension.swift in Sources */,
+				C81394081F665EDF00F6D024 /* VideoCropButton.swift in Sources */,
 				CA9E8B8B1F65FF11008BA65E /* VideoCropController.swift in Sources */,
 				C8CBC27A1F60F794001D13BA /* SASelectionManager.swift in Sources */,
 				C862A9621F629B7B002722A0 /* SAUIConfig.swift in Sources */,

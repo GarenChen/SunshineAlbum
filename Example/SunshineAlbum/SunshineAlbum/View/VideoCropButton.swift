@@ -1,24 +1,22 @@
 //
-//  SASelectionButton.swift
+//  VideoCropButton.swift
 //  SunshineAlbum
 //
-//  Created by Garen on 2017/9/7.
+//  Created by Garen on 2017/9/11.
 //  Copyright © 2017年 CocoaPods. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-class SASelectionButton: UIButton {
-	
-	var index: Int = 0 {
+class VideoCropButton: UIButton {
+
+	var title: String? {
 		didSet {
-			let indexStr: String? = (index > 0) ? "\(index)" : nil
-			setTitle(indexStr, for: .selected)
+			setTitle(title, for: .normal)
 		}
 	}
 	
-	var didClick: ((_ sender: SASelectionButton) -> Void)?
+	var didClick: ((_ sender: VideoCropButton) -> Void)?
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -33,31 +31,27 @@ class SASelectionButton: UIButton {
 	private func setupViews() {
 		layer.cornerRadius = frame.size.height / 2
 		layer.masksToBounds = true
-		layer.borderWidth = 1
+		layer.borderWidth = 4
 		layer.borderColor = UIColor.white.cgColor
 		
-		let normalColor = UIColor(white: 0.7, alpha: 0.3)
-		let selectedColor = SAUIConfig.shared.tintColor
-		setBackgroundImage(normalColor.toImage(), for: .normal)
-		setBackgroundImage(selectedColor.toImage(), for: .selected)
-		
-		setTitle(nil, for: .normal)
+		setBackgroundImage(SAUIConfig.shared.tintColor.toImage(), for: .normal)
+
 		setTitleColor(.white, for: .normal)
 		titleLabel?.font = UIFont.systemFont(ofSize: 14)
 		
 		addTarget(self, action: #selector(click(_:)), for: .touchUpInside)
 	}
 	
-	@objc private func click(_ sender: SASelectionButton) {
+	@objc private func click(_ sender: VideoCropButton) {
 		
 		didClick?(sender)
-
-		transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+		
+		transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		
 		UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
 			self.transform = CGAffineTransform.identity
 		}, completion: nil)
-
+		
 	}
-	
+
 }

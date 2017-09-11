@@ -214,4 +214,42 @@ class SAAssetsManager: NSObject {
 		return models
 	}
 	
+	func cropVideo(asset: PHAsset, startTime: CMTime, endTime: CMTime) {
+		
+		imageManager.requestAVAsset(forVideo: asset, options: nil) { [weak self] (avAsset, audioMix, info) in
+			
+			guard let asset = avAsset as? AVURLAsset else { return }
+			
+			let range = CMTimeRange(start: startTime, end: endTime)
+			
+			let mixComposition = AVMutableComposition()
+			
+			let compositionVideoTrack = mixComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
+			
+			let compositionAudioTrack = mixComposition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
+			
+			do {
+				try compositionVideoTrack.insertTimeRange(range, of: asset.tracks(withMediaType: AVMediaTypeVideo).first!, at: kCMTimeZero)
+				try compositionAudioTrack.insertTimeRange(range, of: asset.tracks(withMediaType: AVMediaTypeAudio).first!, at: kCMTimeZero)
+			} catch let e {
+				print(e)
+			}
+			
+			let assetExportSession = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetPassthrough)
+			
+			let outPutPath = NSTemporaryDirectory().appending("akjdfhakjf.mov")
+			
+			print("outPutPath \(outPutPath)")
+			
+			assetExportSession?.outputFileType = AVFileTypeQuickTimeMovie
+			
+			assetExportSession?.shouldOptimizeForNetworkUse = true
+			
+			assetExportSession?.exportAsynchronously(completionHandler: { 
+				print("assetExportSession export finished")
+			})
+		}
+		
+	}
+	
 }

@@ -21,7 +21,6 @@ public class SunshineAlbumController: UINavigationController {
 	
 	public var showAlbumList: Bool = true
 	
-	
 	/// 初始化方法
 	/// - Parameters:
 	///   - showAlbumList: Whether to show all albums,if false, show the Camera Roll
