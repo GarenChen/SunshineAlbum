@@ -264,11 +264,11 @@ class SAAssetsManager: NSObject {
                     print(e)
                 }
             }
-            
-			assetExportSession?.exportAsynchronously(completionHandler: { 
+
+			assetExportSession?.exportAsynchronously(completionHandler: {
 				print("assetExportSession export finished")
+				SAAssetsManager.saveToPhotoWithUrl(url: url)
                 success?(url)
-                SAAssetsManager.saveToPhotoWithUrl(url: url)
 			})
 		}
 		

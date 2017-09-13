@@ -32,5 +32,15 @@ public class SASelectionManager {
 		return imagesCaches
 	}()
 	
+	public func generateVideoImage(asset: AVURLAsset) -> UIImage? {
+		let assetGen = AVAssetImageGenerator(asset: asset)
+		assetGen.appliesPreferredTrackTransform = true
+		let time = CMTimeMake(1, 60)
+		guard let image = try? assetGen.copyCGImage(at: time, actualTime: nil) else { return nil }
+		let videoImage = UIImage(cgImage: image, scale: 0.6, orientation: UIImageOrientation.up)
+		return videoImage
+	}
+	
+	
 }
 

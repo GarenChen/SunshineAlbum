@@ -247,10 +247,11 @@ class VideoCropController: UIViewController {
             guard let assetModel = assetModel else { return }
             SAAssetsManager.shared.cropVideo(asset: assetModel.asset, startTime: self.startedDurations, endTime: self.endDurations, success: { [weak self] (url) in
                 print("\(url)")
+				let asset = AVURLAsset(url: url, options: nil)
                 DispatchQueue.main.async {  [weak self] in
-                    (self?.navigationController as? SunshineAlbumController)?.didFinishSelectedVideo(url: url)
+                    (self?.navigationController as? SunshineAlbumController)?.didFinishSelectedVideo(asset: asset)
                 }
-                
+				
             })
 			debuglog("completed")
 		}

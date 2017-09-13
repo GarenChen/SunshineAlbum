@@ -217,7 +217,7 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
             SAAssetsManager.shared.imageManager.requestAVAsset(forVideo: assetModel.asset, options: nil) { [weak self] (avAsset, audioMix, info) in
                 DispatchQueue.main.async { [weak self] in
                     guard let asset = avAsset as? AVURLAsset else { return }
-                    (self?.navigationController as? SunshineAlbumController)?.didFinishSelectedVideo(url: asset.url)
+                    (self?.navigationController as? SunshineAlbumController)?.didFinishSelectedVideo(asset: asset)
                 }
             }
             return

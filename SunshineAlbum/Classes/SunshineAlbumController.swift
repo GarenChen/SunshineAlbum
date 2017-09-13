@@ -12,7 +12,7 @@ import AVKit
 
 public enum SelectedType {
 	case photo(Array<UIImage>)
-	case video(URL)
+	case video(AVURLAsset)
 }
 
 public class SunshineAlbumController: UINavigationController {
@@ -76,9 +76,9 @@ public class SunshineAlbumController: UINavigationController {
 		// Dispose of any resources that can be recreated.
 	}
     
-    internal func didFinishSelectedVideo(url: URL) {
+    internal func didFinishSelectedVideo(asset: AVURLAsset) {
         dismissController()
-        complitionHandler?(.video(url))
+        complitionHandler?(.video(asset))
     }
 	
 	internal func didFinishSelected() {
