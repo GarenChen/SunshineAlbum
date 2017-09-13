@@ -40,8 +40,10 @@ class ViewController: UIViewController {
 					y += 80
 				})
 				
-			case .video(let url):
-                print("video: \(url)")
+			case .video(let asset):
+				print("video: \(asset)")
+				print("video asset.url.absoluteString: \(asset.url.absoluteString)")
+				print("video asset.url.path: \(asset.url.path)")
 				break
 			}
 		}

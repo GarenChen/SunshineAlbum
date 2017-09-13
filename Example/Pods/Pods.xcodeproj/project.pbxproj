@@ -146,7 +146,6 @@
 		BF345571F1BFF543773F74EB4E49B366 /* SAAssetsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FCC535394E6B08D08BD1432C6570049 /* SAAssetsManager.swift */; };
 		BF3AF1D2B46E09E2B3DCC824E6C1F5AF /* Equal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82C7AA48F705507E47A21AD8E10484F /* Equal.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		BF69AA6FF03B0D3789E27548B8398D35 /* Quick-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E62B08603E00709D2E2462B0FCCBBF61 /* Quick-dummy.m */; };
-		BF7046F5D82ED1F0D07DB823CCF209FB /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91668ED586365D5D6A8BE6D876397FBF /* SwiftHEXColors.swift */; };
 		BFCE460CC33E8872B7156D4166340178 /* FBSnapshotTestCasePlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BCD65F3423C0A520456A9B100A882D /* FBSnapshotTestCasePlatform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C500E5AD5D16C7B1809B5D61E5DAB15D /* PhotoPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C99167496A45C11E9865C7CD50CD1A /* PhotoPreviewCell.swift */; };
 		C6732407A9778397E44F1AD8F9934F46 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A150D46EA64BD8DEFF32F7A7268A3D3D /* Foundation.framework */; };
@@ -366,7 +365,6 @@
 		8C36DB6F05615EC71278526272A72BAD /* Quick.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quick.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CFFBB5D10F5336A7EAF266F1CAF9C90 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		911F5293F6624D4A55375D7ED80A90E8 /* AlbumsModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AlbumsModel.swift; sourceTree = "<group>"; };
-		91668ED586365D5D6A8BE6D876397FBF /* SwiftHEXColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftHEXColors.swift; sourceTree = "<group>"; };
 		91B35075C2C09AD9E7FB16BE3C249DB9 /* XCTestSuite+QuickTestSuiteBuilder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "XCTestSuite+QuickTestSuiteBuilder.m"; path = "Sources/QuickObjectiveC/XCTestSuite+QuickTestSuiteBuilder.m"; sourceTree = "<group>"; };
 		9212D996706D5ED0B3E8874A9E444CF0 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FBSnapshotTestCase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92BE0C6B1D8248E7856996E2DB3CBE98 /* AlbumsListController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AlbumsListController.swift; path = SunshineAlbum/Classes/AlbumsListController.swift; sourceTree = "<group>"; };
@@ -658,7 +656,6 @@
 				1A9C51FC54CF323D232562C758F47B15 /* Bundle+Extension.swift */,
 				27BB0412483A0D591556E63D5D4E1475 /* DebugLog.swift */,
 				002272E3916758BA51F3573A49E0BB6F /* DismissAction.swift */,
-				91668ED586365D5D6A8BE6D876397FBF /* SwiftHEXColors.swift */,
 				CF8DC8BEDA1C820770584F7FA8E57613 /* UIColor+Extension.swift */,
 				8929AB0C763DC5972A7048792EF0F807 /* UIScreen+Extension.swift */,
 				67EFB8B531EBD87EC38FC87F77974012 /* UIView+Extension.swift */,
@@ -1348,7 +1345,6 @@
 				7704C2C394C70AE853071FD8F87607DB /* SAUIConfig.swift in Sources */,
 				F6B54B45FE8EAB30407C37D8EA2624FC /* SunshineAlbum-dummy.m in Sources */,
 				0954C765BA5D94CFED12C45135E026CA /* SunshineAlbumController.swift in Sources */,
-				BF7046F5D82ED1F0D07DB823CCF209FB /* SwiftHEXColors.swift in Sources */,
 				641E2151869CFFF47B322D6D71E92691 /* ThumbnailPhotoCell.swift in Sources */,
 				79607ADC774010D95D4939DC4F9D7F8E /* ThumbnailPhotoCell.xib in Sources */,
 				40B85E796EE8F01F5EC9132488BFB250 /* UIColor+Extension.swift in Sources */,
