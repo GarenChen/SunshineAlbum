@@ -14,6 +14,8 @@ class VideoPreviewCell: UICollectionViewCell, PreviewContentType {
     var assetModel: AssetModel? {
         didSet {
             guard let model = assetModel else { return }
+			
+			self.playerItem?.removeObserver(self, forKeyPath: "status")
             
             SAAssetsManager.shared.fetchAVPlayerItem(asset: model.asset, success: {[weak self] (playerItem) in
                 DispatchQueue.main.async { [weak self] in
