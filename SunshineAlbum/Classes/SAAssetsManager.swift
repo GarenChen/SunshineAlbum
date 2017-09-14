@@ -17,7 +17,7 @@ class SAAssetsManager: NSObject {
     
 	var showVideo: Bool = false
 	
-	var photoFetchOptions: PHFetchOptions {
+	var assetFetchOptions: PHFetchOptions {
 		let options = PHFetchOptions()
 		if !showVideo {
 			options.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
@@ -26,8 +26,17 @@ class SAAssetsManager: NSObject {
 		return options
 	}
 	
-	let imageManager: PHImageManager = {
-		return PHImageManager.default()
+	lazy var imageFetchOptions: PHImageRequestOptions = {
+		let options = PHImageRequestOptions()
+		options.resizeMode = .exact
+		options.isNetworkAccessAllowed = false
+		options.deliveryMode = .highQualityFormat
+		options.isSynchronous = false
+		return options
+	}()
+	
+	let imageManager: PHCachingImageManager = {
+		return PHCachingImageManager()
 	}()
 	
 	private override init() {
@@ -68,66 +77,41 @@ class SAAssetsManager: NSObject {
 	///
 	/// - Parameters:
 	///   - asset: PHAsset
-	///   - isHightQuality: 是否是高清图
 	///   - complition: 回调
-    func fetchResultImage(asset: PHAsset, isHightQuality: Bool = true, isFullImage: Bool = false, complition: @escaping (UIImage) -> Void) {
+    func fetchResultImage(asset: PHAsset, isFullImage: Bool = false, complition: @escaping (UIImage) -> Void) {
 		
         var size: CGSize = .zero
         
         if !isFullImage {
-            let scale = isHightQuality ? UIScreen.ScreenScale : 1.0
+            let scale = UIScreen.ScreenScale
             let aspectRatio = CGFloat(asset.pixelWidth) / CGFloat(asset.pixelHeight)
             let pixelWidth = UIScreen.ScreenWidth * scale
-            let pixelHeight = UIScreen.ScreenWidth / aspectRatio
+            let pixelHeight = pixelWidth / aspectRatio
             size = CGSize(width: pixelWidth, height: pixelHeight)
         }
-
-		let options = PHImageRequestOptions()
-		options.resizeMode = .exact
-		options.isNetworkAccessAllowed = false
-		options.deliveryMode = isHightQuality ? .highQualityFormat : .fastFormat
-		options.isSynchronous = true
 		
-		fetchImage(asset: asset, targetSize: size, options: options, success: complition)
+		fetchImage(asset: asset, targetSize: size, options: imageFetchOptions, success: complition)
 	}
-    
-    /// 获取照片原图
-    ///
-    /// - Parameters:
-    ///   - asset: PHAsset
-    ///   - complition: 回调
-    func fetchPreviewImage(asset: PHAsset, complition: @escaping (UIImage) -> Void) {
-        let size = CGSize.zero
-        let options = PHImageRequestOptions()
-        options.resizeMode = .exact
-        options.isNetworkAccessAllowed = false
-        options.deliveryMode = .highQualityFormat
-        options.isSynchronous = false
-        fetchImage(asset: asset, targetSize: size, options: options, success: complition)
-    }
-	
+
 	/// 获取照片预览图
 	///
 	/// - Parameters:
 	///   - asset: PHAsset
-	///   - isHightQuality: 是否是高清图
 	///   - complition: 回调
-	func fetchPreviewImage(asset: PHAsset, isHightQuality: Bool, complition: @escaping (UIImage) -> Void) {
+	func fetchPreviewImage(asset: PHAsset, complition: @escaping (UIImage) -> Void) {
 		
-		let scale = isHightQuality ? UIScreen.ScreenScale : 1.0
+		let scale = UIScreen.ScreenScale
 		let aspectRatio = CGFloat(asset.pixelWidth) / CGFloat(asset.pixelHeight)
 		let pixelWidth = UIScreen.ScreenWidth * scale
-		let pixelHeight = UIScreen.ScreenWidth / aspectRatio
+		let pixelHeight = pixelWidth / aspectRatio
 		
 		let size = CGSize(width: pixelWidth, height: pixelHeight)
-		
-		let options = PHImageRequestOptions()
-		options.resizeMode = .fast
-		options.isNetworkAccessAllowed = false
-		options.deliveryMode = isHightQuality ? .highQualityFormat : .fastFormat
-		options.isSynchronous = false
-		
-		fetchImage(asset: asset, targetSize: size, options: options, success: complition)
+
+		fetchImage(asset: asset,
+		           targetSize: size,
+		           options: imageFetchOptions,
+		           contentMode: .aspectFit,
+		           success: complition)
 	}
 	
 	/// 获取资源缩略图
@@ -139,20 +123,23 @@ class SAAssetsManager: NSObject {
 	///   - complition: 获取成功后回调，获取失败时不调用
 	func fetchThumbnailImage(asset: PHAsset, width: CGFloat, height: CGFloat, complition: @escaping (UIImage) -> Void) {
 		
-		let size = CGSize(width: width, height: height)
-		
-		let options = PHImageRequestOptions()
-		options.resizeMode = .fast
-		options.isNetworkAccessAllowed = false
-		options.deliveryMode = .fastFormat
-		
-		fetchImage(asset: asset, targetSize: size, options: options, success: complition)
+		let size = CGSize(width: width * UIScreen.main.scale, height: height * UIScreen.main.scale)
+
+		fetchImage(asset: asset,
+		           targetSize: size,
+		           options: imageFetchOptions,
+		           success: complition)
 	}
 	
 	/// 获取特定尺寸图片
-	func fetchImage(asset: PHAsset, targetSize: CGSize, options: PHImageRequestOptions, success: @escaping (UIImage) -> Void, failure: ((Error?) -> Void)? = nil) {
+	func fetchImage(asset: PHAsset,
+	                targetSize: CGSize,
+	                options: PHImageRequestOptions,
+	                contentMode: PHImageContentMode = .aspectFill,
+	                success: @escaping (UIImage) -> Void,
+	                failure: ((Error?) -> Void)? = nil) {
 		
-		imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options) { (image, info) in
+		imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: contentMode, options: options) { (image, info) in
 			
 			guard let resultImage = image else {
 				failure?(info?[PHImageErrorKey] as? Error)
@@ -172,10 +159,10 @@ class SAAssetsManager: NSObject {
         let options = PHImageRequestOptions()
         options.resizeMode = .exact
         options.isNetworkAccessAllowed = false
-        imageManager.requestImageData(for: asset, options: options) { (data, string, orientation, info) in
+        imageManager.requestImageData(for: asset, options: imageFetchOptions) { (data, string, orientation, info) in
             debuglog("data: \(String(describing: data)), string: \(String(describing: string)), orientation:\(orientation), info: \(String(describing: info))")
             guard let data = data else { return }
-            let length = (data.count ?? 0) / (1024 * 1024)
+            let length = (data.count) / (1024 * 1024)
             let lenghtStr = String(format: "%.2fM", length)
             complition(data, lenghtStr)
         }
@@ -205,7 +192,7 @@ class SAAssetsManager: NSObject {
 		
 		result.enumerateObjects({ (collection, index, _) in
 			
-			let assetResult = PHAsset.fetchAssets(in: collection, options: self.photoFetchOptions)
+			let assetResult = PHAsset.fetchAssets(in: collection, options: self.assetFetchOptions)
 			
 			if assetResult.count > 0 {
 				let model = AlbumsModel(assetResult: assetResult, name: collection.localizedTitle)

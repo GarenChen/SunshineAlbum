@@ -21,6 +21,8 @@ public class SASelectionManager {
     
     public var maxSelectedVideoDuration: TimeInterval = 10
 	
+	public var canEditVideo: Bool = false
+	
 	/// 选中图片
 	lazy var selectedAssets: [AssetModel] = []
 	
@@ -41,6 +43,10 @@ public class SASelectionManager {
 		return videoImage
 	}
 	
+	public func cleanCaches() {
+		SASelectionManager.shared.selectedAssets = []
+		SASelectionManager.shared.imagesCaches.removeAllObjects()
+	}
 	
 }
 

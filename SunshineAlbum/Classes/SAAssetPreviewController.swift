@@ -174,8 +174,10 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
             print("\(SASelectionManager.shared.maxSelectedVideoDuration)")
             
             customBottomBar.secondButton.isEnabled = true
-            customBottomBar.decLabel.text = isVideoTooLong ? "只能选择不超过10秒的视频文件！" : nil
-            customBottomBar.secondButton.setTitle(isVideoTooLong ? "编辑" : "完成", for: .normal)
+			customBottomBar.secondButton.setTitle(isVideoTooLong ? "编辑" : "完成", for: .normal)
+			customBottomBar.secondButton.isHidden = !SASelectionManager.shared.canEditVideo && isVideoTooLong
+            customBottomBar.decLabel.text = isVideoTooLong ? "只能选择不超过\(Int(SASelectionManager.shared.maxSelectedVideoDuration))秒的视频文件！" : nil
+            
             
             if !SASelectionManager.shared.selectedAssets.isEmpty {
                 customBottomBar.decLabel.text = "不能同时选择图片和视频文件！"

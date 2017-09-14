@@ -17,6 +17,7 @@ class AlbumsModel {
 
 	var assetResult: PHFetchResult<PHAsset>
 	
+	
 	lazy var assetModels: Array<AssetModel> = { [unowned self] in
 		
 		var models: Array<AssetModel> = []
@@ -26,12 +27,20 @@ class AlbumsModel {
 		})
 		return models
 	}()
+	
+	lazy var phAssets: Array<PHAsset> = { [unowned self] in
+		
+		var assets: Array<PHAsset> = []
+		self.assetResult.enumerateObjects( { (asset, index, _) in
+			assets.append(asset)
+		})
+		return assets
+	}()
 
 	init(assetResult: PHFetchResult<PHAsset>, name: String?) {
 		self.assetResult = assetResult
 		self.albumName = name ?? ""
 		self.count = assetResult.count
-		
 		
 	}
 	

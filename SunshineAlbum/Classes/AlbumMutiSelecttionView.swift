@@ -53,7 +53,8 @@ class AlbumMutiSelecttionView: UICollectionView, UICollectionViewDelegate, UICol
             selectedModelsDidChange?(selectedModel)
             
             needMaskUnSelectedItems = selectedModel.count >= maxSelectedCount
-            reloadItems(at: indexPathsForVisibleItems)
+			
+			refreshVisiableCellDisplayStatus()
         }
     }
     
@@ -85,6 +86,31 @@ class AlbumMutiSelecttionView: UICollectionView, UICollectionViewDelegate, UICol
 		dataSource = self
 		
 		register(UINib(nibName: ThumbnailPhotoCell.reusedId, bundle: Bundle.currentResourceBundle), forCellWithReuseIdentifier: ThumbnailPhotoCell.reusedId)
+	}
+	
+	func refreshVisiableCellDisplayStatus() {
+		
+		indexPathsForVisibleItems.forEach {[weak self] (indexPath) in
+			guard let `self` = self else { return }
+			guard let albumModel = self.albumModel else { return }
+			guard let cell = self.cellForItem(at: indexPath) as? ThumbnailPhotoCell else { return }
+			
+			let assetModel = albumModel.assetModels[indexPath.item]
+			
+			let index = self.selectedModel.index { (model) -> Bool in
+				return model.identifier == assetModel.identifier
+			}
+			
+			cell.showIndex = (index == nil) ? 0 : index! + 1
+			
+			if assetModel.type == .image {
+				cell.showMask = !assetModel.isSelected && self.needMaskUnSelectedItems
+			} else {
+				cell.showMask = !self.selectedModel.isEmpty
+			}
+			
+		}
+		
 	}
 	
 	// MARK: - data source
@@ -148,7 +174,12 @@ class AlbumMutiSelecttionView: UICollectionView, UICollectionViewDelegate, UICol
 		guard let albumModel = albumModel else { return }
         
         let assetModel = albumModel.assetModels[indexPath.item]
-        
+		
+		if assetModel.type == .video && Int(assetModel.videoDuration) > Int(SASelectionManager.shared.maxSelectedVideoDuration) && !SASelectionManager.shared.canEditVideo {
+			self.nearestController()?.showAlert(title: "只能选择不超过\(Int(SASelectionManager.shared.maxSelectedVideoDuration))秒的视频文件！",actions: ("确定", nil))
+			return
+		}
+		
         if (selectedModel.count >= maxSelectedCount) && !assetModel.isSelected {
             self.nearestController()?.showAlert(title: "最多只能选择\(self.maxSelectedCount)张照片",actions: ("确定", nil))
             return

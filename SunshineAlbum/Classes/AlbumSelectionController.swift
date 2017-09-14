@@ -7,10 +7,20 @@
 //
 
 import UIKit
+import Photos
 
 class AlbumSelectionController: UIViewController {
 
-	var albumModel: AlbumsModel?
+	var albumModel: AlbumsModel? {
+		willSet {
+			SAAssetsManager.shared.imageManager.stopCachingImagesForAllAssets()
+		}
+		
+		didSet {
+			guard let albumModel = albumModel else { return }
+			SAAssetsManager.shared.imageManager.startCachingImages(for: albumModel.phAssets, targetSize: CGSize(width: SAAlbumThumbnailSize.width, height: SAAlbumThumbnailSize.height), contentMode: .aspectFill, options: SAAssetsManager.shared.imageFetchOptions)
+		}
+	}
 	
     private var isFirstShow: Bool = true
     

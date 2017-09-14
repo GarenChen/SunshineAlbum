@@ -24,7 +24,7 @@ class ThumbnailPhotoCell: UICollectionViewCell {
 			
 			thumbnailView.image = UIImage(named: "icon_album_placeholder", in: Bundle.currentResourceBundle, compatibleWith: nil)
 			
-			SAAssetsManager.shared.fetchThumbnailImage(asset: model.asset, width: 100 * UIScreen.ScreenScale, height: 100 * UIScreen.ScreenScale) { [weak self] (image) in
+			SAAssetsManager.shared.fetchThumbnailImage(asset: model.asset, width: SAAlbumThumbnailSize.width, height: SAAlbumThumbnailSize.height) { [weak self] (image) in
 				self?.thumbnailView.image = image
 			}
         }
@@ -39,6 +39,7 @@ class ThumbnailPhotoCell: UICollectionViewCell {
 	var showIndex: Int = 0 {
 		didSet {
 			selectedButton.index = showIndex
+			selectedButton.isSelected = showIndex > 0
 		}
 	}
 	
@@ -70,5 +71,10 @@ class ThumbnailPhotoCell: UICollectionViewCell {
 			sender.isSelected = isSelected
 		}
     }
+	
+	func refreshDisplayStatus(showMask: Bool, isSelected: Bool) {
+		self.showMask = showMask
+		selectedButton.isSelected = isSelected
+	}
 
 }

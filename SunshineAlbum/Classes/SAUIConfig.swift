@@ -28,5 +28,9 @@ class SAUIConfig {
 	var lightGrayTextColor = UIColor(redValue: 165, greenValue: 165, blueValue: 165, alpha: 0.95)
 	
 	var disableTextColor = UIColor(redValue: 103, greenValue: 107, blueValue: 112, alpha: 0.95)
-	
+}
+
+struct SAAlbumThumbnailSize {
+	static let width: CGFloat = 100
+	static let height: CGFloat = 100
 }

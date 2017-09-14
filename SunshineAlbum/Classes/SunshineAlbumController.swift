@@ -62,6 +62,11 @@ public class SunshineAlbumController: UINavigationController {
 		}
 	}
 	
+	public override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+		SASelectionManager.shared.cleanCaches()
+		super.dismiss(animated: flag, completion: completion)
+	}
+	
 	private func setupView() {
 		self.navigationBar.tintColor = .white
 		self.navigationBar.barStyle = .blackTranslucent
@@ -83,8 +88,6 @@ public class SunshineAlbumController: UINavigationController {
 	
 	internal func didFinishSelected() {
 		
-		dismissController()
-		
 		debuglog("\(SASelectionManager.shared.selectedAssets.description)")
 
 		var images: [UIImage] = []
@@ -92,15 +95,19 @@ public class SunshineAlbumController: UINavigationController {
 			
 			if let image = SASelectionManager.shared.imagesCaches.object(forKey: model),!model.isFullImage {
 				images.append(image)
+				debuglog("image: \(image)")
 			} else {
-				SAAssetsManager.shared.fetchResultImage(asset: model.asset, isHightQuality: true, isFullImage: model.isFullImage, complition: { (image) in
+				SAAssetsManager.shared.fetchResultImage(asset: model.asset, isFullImage: model.isFullImage, complition: { (image) in
 					images.append(image)
+					debuglog("image: \(image)")
 				})
 			}	
 		}
-		SASelectionManager.shared.selectedAssets = []
-		SASelectionManager.shared.imagesCaches.removeAllObjects()
+
+		dismissController()
+		
 		complitionHandler?(.photo(images))
+		
 	}
 
 }
