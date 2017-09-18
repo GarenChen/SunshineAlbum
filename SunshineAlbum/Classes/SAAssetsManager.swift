@@ -31,7 +31,7 @@ class SAAssetsManager: NSObject {
 		options.resizeMode = .exact
 		options.isNetworkAccessAllowed = false
 		options.deliveryMode = .highQualityFormat
-		options.isSynchronous = false
+		options.isSynchronous = true
 		return options
 	}()
 	
