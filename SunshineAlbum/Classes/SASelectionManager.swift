@@ -13,20 +13,36 @@ public class SASelectionManager {
 	
 	public static let shared = SASelectionManager()
 	
-	private init() {
-		
+	private init() { }
+	
+	/// 最大图片选择数， 默认为 9, 当设置为小于等于 1 时,为选择单个图片
+	public var maxSelectedCount: Int = 9 {
+		didSet {
+			isSingleImagePicker = (maxSelectedCount <= 1 )
+		}
 	}
 	
-	public var maxSelectedCount: Int = 9
-    
+	/// 是否为单个图片选择器
+	var isSingleImagePicker: Bool = false
+	
+	/// 是否需要裁剪图片， 默认为false, 仅当 isSingleImagePicker 为 true 时有效
+	public var canCropImage: Bool = false
+	
+	/// 裁剪图片区域frame, 仅当 canCropImage 为 true 时有效
+	public var	imageCropFrame: CGRect = .zero
+	
+	
+    /// 是否允许选择视频，默认为true
+	public var containsVideo: Bool = true
+	
+    /// 选择视频所允许的最大时长，仅当 canSelectedVedio 为 true 时有效， 默认为10s， 设置0时 不限制时长
     public var maxSelectedVideoDuration: TimeInterval = 10
 	
+	/// 超过最大时长的视频是否可截断， 默认为false 表示不可截断不可选， 为true时截断后可选
 	public var canEditVideo: Bool = false
 	
-	/// 选中图片
 	lazy var selectedAssets: [AssetModel] = []
 	
-	/// 大图缓存
 	lazy var imagesCaches: NSCache<AssetModel, UIImage> = {
 		let imagesCaches = NSCache<AssetModel, UIImage>()
 		imagesCaches.countLimit = 64
@@ -34,6 +50,11 @@ public class SASelectionManager {
 		return imagesCaches
 	}()
 	
+	
+	/// 获取视频缩略图
+	///
+	/// - Parameter asset: asset
+	/// - Returns: UIImage
 	public func generateVideoImage(asset: AVURLAsset) -> UIImage? {
 		let assetGen = AVAssetImageGenerator(asset: asset)
 		assetGen.appliesPreferredTrackTransform = true
@@ -43,6 +64,8 @@ public class SASelectionManager {
 		return videoImage
 	}
 	
+	
+	/// 清除缓存
 	public func cleanCaches() {
 		SASelectionManager.shared.selectedAssets = []
 		SASelectionManager.shared.imagesCaches.removeAllObjects()

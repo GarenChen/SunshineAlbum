@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import AVKit
+import Photos
 
 public enum SelectedType {
 	case photo(Array<UIImage>)
@@ -21,13 +22,20 @@ public class SunshineAlbumController: UINavigationController {
 	
 	public var showAlbumList: Bool = true
 	
-	/// 初始化方法
+	
+	/// 便利初始化方法
+	///
 	/// - Parameters:
-	///   - showAlbumList: Whether to show all albums,if false, show the Camera Roll
-	///   - containVideo: Whether album contain video
-	///   - complition: complition handler
-	public convenience init(showAlbumList: Bool, containVideo: Bool, complition: @escaping (SelectedType) -> Void) {
-		SAAssetsManager.shared.showVideo = containVideo
+	///   - showAlbumList: 进入时是否显示列表，默认为true，为false时显示「相机胶卷」
+	///   - maxSelectedCount: 最大图片选择数， 默认为 9, 当设置为小于等于 1 时,为选择单个图片
+	///   - containsVideo: 是否允许选择视频文件
+	///   - complition: <#complition description#>
+	public convenience init(showAlbumList: Bool = true,
+	                        maxSelectedCount: Int = 9,
+	                        containsVideo: Bool = true,
+	                        complition: @escaping (SelectedType) -> Void) {
+		SASelectionManager.shared.maxSelectedCount = maxSelectedCount
+		SASelectionManager.shared.containsVideo = containsVideo
 		let albumsList = AlbumsListController(models: [])
 		self.init(rootViewController: albumsList)
 		self.showAlbumList = showAlbumList
@@ -49,17 +57,11 @@ public class SunshineAlbumController: UINavigationController {
 	public override func viewDidLoad() {
 		super.viewDidLoad()
 		setupView()
+		checkAuthorization()
 	}
 	
 	public override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		if !showAlbumList {
-			guard let model = SAAssetsManager.shared.fetchCameraRoll() else {
-				return
-			}
-			let ctr = AlbumSelectionController(model: model)
-			self.pushViewController(ctr, animated: false)
-		}
 	}
 	
 	public override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
@@ -70,6 +72,31 @@ public class SunshineAlbumController: UINavigationController {
 	private func setupView() {
 		self.navigationBar.tintColor = .white
 		self.navigationBar.barStyle = .blackTranslucent
+	}
+	
+	private func checkAuthorization() {
+		PHPhotoLibrary.requestAuthorization { (status) in
+			DispatchQueue.main.async {
+				switch status {
+				case .authorized:
+					if !self.showAlbumList {
+						guard let model = AssetsManager.shared.fetchCameraRoll() else {
+							return
+						}
+						let ctr: UIViewController = SASelectionManager.shared.isSingleImagePicker ? AlbumSingleSelectionController(model: model) :  AlbumMutiSelectionController(model: model)
+						self.pushViewController(ctr, animated: false)
+					}
+					
+				default:
+					self.showAlert(title: "尚未获取照片的使用权限，请在设置中开启「照片」",
+					               actions: ("取消", nil), ("前往设置", { _ in
+									if let url = URL(string: UIApplicationOpenSettingsURLString),  UIApplication.shared.canOpenURL(url) {
+										UIApplication.shared.openURL(url)
+									}
+								}))
+				}
+			}
+		}
 	}
 	
 	internal func dismissController() {
@@ -86,7 +113,7 @@ public class SunshineAlbumController: UINavigationController {
         complitionHandler?(.video(asset))
     }
 	
-	internal func didFinishSelected() {
+	internal func didFinishSelectedImage() {
 		
 		debuglog("\(SASelectionManager.shared.selectedAssets.description)")
 
@@ -97,7 +124,7 @@ public class SunshineAlbumController: UINavigationController {
 				images.append(image)
 				debuglog("image: \(image)")
 			} else {
-				SAAssetsManager.shared.fetchResultImage(asset: model.asset, isFullImage: model.isFullImage, complition: { (image) in
+				AssetsManager.shared.fetchResultImage(asset: model.asset, isFullImage: model.isFullImage, complition: { (image) in
 					images.append(image)
 					debuglog("image: \(image)")
 				})

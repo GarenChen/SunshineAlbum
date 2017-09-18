@@ -1,5 +1,5 @@
 //
-//  SASelectionButton.swift
+//  SelectionButton.swift
 //  SunshineAlbum
 //
 //  Created by Garen on 2017/9/7.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SASelectionButton: UIButton {
+class SelectionButton: UIButton {
 	
 	var index: Int = 0 {
 		didSet {
@@ -18,7 +18,7 @@ class SASelectionButton: UIButton {
 		}
 	}
 	
-	var didClick: ((_ sender: SASelectionButton) -> Void)?
+	var didClick: ((_ sender: SelectionButton) -> Void)?
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -48,7 +48,7 @@ class SASelectionButton: UIButton {
 		addTarget(self, action: #selector(click(_:)), for: .touchUpInside)
 	}
 	
-	@objc private func click(_ sender: SASelectionButton) {
+	@objc private func click(_ sender: SelectionButton) {
 		
 		didClick?(sender)
 

@@ -8,39 +8,15 @@
 
 import UIKit
 
-enum PreviewBottomBarType {
-    case photo
-    case video
-}
-
 class PreviewBottomBar: UIView {
     
     var didClickedFirst: ((UIButton) -> Void)?
     
     var didClickedSecond:  ((UIButton) -> Void)?
-    
-    var showType: PreviewBottomBarType = .photo {
-        didSet {
-            firstButton.isHidden = showType == .video
-            decButton.isHidden =  showType == .video
-            decLabel.isHidden = showType == .photo
-        }
-    }
-    
-    lazy var decButton: UIButton = { [unowned self] in
-        let decButton = UIButton(frame: CGRect(x: 12, y: 15, width: 18, height: 18))
-        decButton.setBackgroundImage(SAUIConfig.shared.tintColor.toImage(), for: .selected)
-        decButton.layer.cornerRadius = 9
-        decButton.layer.masksToBounds = true
-        decButton.layer.borderColor = UIColor.white.cgColor
-        decButton.layer.borderWidth = 2
-        decButton.isUserInteractionEnabled = false
-        return decButton
-    }()
-    
+
     lazy var firstButton: UIButton = { [unowned self] in
         let firstButton = UIButton()
-        firstButton.frame = CGRect(x: 32, y: 8, width: 96, height: 32)
+        firstButton.frame = CGRect(x: 12, y: 8, width: 96, height: 32)
         firstButton.layer.cornerRadius = 2
         firstButton.layer.masksToBounds = true
         firstButton.contentHorizontalAlignment = .left
@@ -91,10 +67,7 @@ class PreviewBottomBar: UIView {
         addSubview(firstButton)
         addSubview(decLabel)
         addSubview(secondButton)
-        addSubview(decButton)
-        
-        firstButton.isHidden = showType == .video
-        decLabel.isHidden = showType == .photo
+		
     }
     
     @objc private func didClickedfirstBtn(_ button: UIButton) {

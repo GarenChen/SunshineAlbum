@@ -1,5 +1,5 @@
 //
-//  SAAssetPreviewController.swift
+//  AssetPreviewController.swift
 //  SunshineAlbum
 //
 //  Created by Garen on 2017/9/7.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class AssetPreviewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
 	var assetModels: [AssetModel] = []
 	
@@ -21,8 +21,8 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
-    private lazy var rightButton: SASelectionButton = { [unowned self] in
-        let rightButton = SASelectionButton(frame: CGRect(x: 0, y: 0, width: 26, height: 26))
+    private lazy var rightButton: SelectionButton = { [unowned self] in
+        let rightButton = SelectionButton(frame: CGRect(x: 0, y: 0, width: 26, height: 26))
         rightButton.didClick = {[weak self] sender in
             self?.didClickedRightItem(sender)
         }
@@ -31,13 +31,7 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
     
     private lazy var customBottomBar: PreviewBottomBar = { [unowned self] in
         let bar  = PreviewBottomBar(frame: CGRect(x: 0, y: UIScreen.ScreenHeight - UIScreen.bottomBarHeight, width: UIScreen.ScreenWidth, height: UIScreen.bottomBarHeight))
-        
-        bar.didClickedFirst = { [weak self, weak bar] sender in
-            sender.isSelected = !sender.isSelected
-            bar?.decButton.isSelected = sender.isSelected
-            self?.pickUpImage(isFullImage: sender.isSelected)
-        }
-        
+		bar.firstButton.isHidden = true
         bar.didClickedSecond = { [weak self] _ in
             self?.finishSelected()
         }
@@ -105,8 +99,7 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
 		navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
 		
 		refreshBars()
-		refreshFullImageButton()
-		
+
 		collectionView.scrollToItem(at: IndexPath(item: currentItemIndex, section: 0), at: .left, animated: false)
 		collectionView.backgroundColor = .black
     }
@@ -139,27 +132,7 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
 		
 		refreshBars()
     }
-    
-    private func pickUpImage(isFullImage: Bool) {
-        guard currentItemIndex < self.assetModels.count else { return }
-        let assetModel = self.assetModels[currentItemIndex]
-        assetModel.isFullImage = isFullImage
-		refreshFullImageButton()
-    }
-	
-	private func refreshFullImageButton() {
-		
-		guard currentItemIndex < self.assetModels.count else { return }
-		let assetModel = self.assetModels[currentItemIndex]
-		if assetModel.isFullImage {
-			SAAssetsManager.shared.caculateOriginalDataLength(asset: assetModel.asset, complition: {[weak self] (data, lengthDec) in
-				self?.customBottomBar.firstButton.setTitle("原图\(lengthDec)", for: .selected)
-			})
-		} else {
-			customBottomBar.firstButton.setTitle("原图", for: .normal)
-		}
-	}
-	
+
 	private func refreshBars() {
         
 		guard currentItemIndex < self.assetModels.count else { return }
@@ -167,7 +140,6 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
         
         if assetModel.type == .video {
             rightButton.isHidden = true
-            customBottomBar.showType = .video
             let isVideoTooLong = Int(assetModel.videoDuration) > Int(SASelectionManager.shared.maxSelectedVideoDuration)
             
             print("\(assetModel.videoDuration)")
@@ -193,7 +165,7 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
             rightButton.isSelected = assetModel.isSelected
             rightButton.isHidden = false
             
-            customBottomBar.showType = .photo
+            customBottomBar.decLabel.text = nil
             let doneButtonTitle = SASelectionManager.shared.selectedAssets.isEmpty ? "完成" : "完成(\(SASelectionManager.shared.selectedAssets.count))"
             customBottomBar.secondButton.setTitle(doneButtonTitle, for: .normal)
         }
@@ -216,7 +188,7 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
             }
             
             // 视频不需要截取
-            SAAssetsManager.shared.imageManager.requestAVAsset(forVideo: assetModel.asset, options: nil) { [weak self] (avAsset, audioMix, info) in
+            AssetsManager.shared.imageManager.requestAVAsset(forVideo: assetModel.asset, options: nil) { [weak self] (avAsset, audioMix, info) in
                 DispatchQueue.main.async { [weak self] in
                     guard let asset = avAsset as? AVURLAsset else { return }
                     (self?.navigationController as? SunshineAlbumController)?.didFinishSelectedVideo(asset: asset)
@@ -229,7 +201,7 @@ class SAAssetPreviewController: UIViewController, UICollectionViewDataSource, UI
 		if SASelectionManager.shared.selectedAssets.isEmpty {
 			SASelectionManager.shared.selectedAssets.append(assetModel)
 		}
-		(navigationController as? SunshineAlbumController)?.didFinishSelected()
+		(navigationController as? SunshineAlbumController)?.didFinishSelectedImage()
     }
 	
 	// MARK: - UICollectionViewDataSource, UICollectionViewDelegate

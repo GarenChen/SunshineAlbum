@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum ThumbnailCellShowType {
+	case MutiSelection
+	case SingleSelection
+}
+
 class ThumbnailPhotoCell: UICollectionViewCell {
     
     var model: AssetModel? {
@@ -24,7 +29,7 @@ class ThumbnailPhotoCell: UICollectionViewCell {
 			
 			thumbnailView.image = UIImage(named: "icon_album_placeholder", in: Bundle.currentResourceBundle, compatibleWith: nil)
 			
-			SAAssetsManager.shared.fetchThumbnailImage(asset: model.asset, width: SAAlbumThumbnailSize.width, height: SAAlbumThumbnailSize.height) { [weak self] (image) in
+			AssetsManager.shared.fetchThumbnailImage(asset: model.asset, width: SAAlbumThumbnailSize.width, height: SAAlbumThumbnailSize.height) { [weak self] (image) in
 				self?.thumbnailView.image = image
 			}
         }
@@ -43,11 +48,17 @@ class ThumbnailPhotoCell: UICollectionViewCell {
 		}
 	}
 	
+	var showType: ThumbnailCellShowType = .MutiSelection {
+		didSet {
+			selectedButton.isHidden = (showType == .SingleSelection)
+		}
+	}
+	
 	var didClickSelectedButton: ((inout Bool, AssetModel) -> Void)?
     
     @IBOutlet private weak var thumbnailView: UIImageView!
 
-    @IBOutlet private weak var selectedButton: SASelectionButton!
+    @IBOutlet private weak var selectedButton: SelectionButton!
     
     @IBOutlet private weak var videoIcon: UIImageView!
     

@@ -12,7 +12,7 @@ import UIKit
 extension Bundle {
 	
 	static var currentResourceBundle: Bundle? {
-		let path =  Bundle(for: SAAssetsManager.self).path(forResource: "SunshineAlbum", ofType: "bundle") ?? ""
+		let path =  Bundle(for: AssetsManager.self).path(forResource: "SunshineAlbum", ofType: "bundle") ?? ""
 		return Bundle(path: path)
 	}
 	

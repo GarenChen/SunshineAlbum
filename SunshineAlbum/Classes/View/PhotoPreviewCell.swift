@@ -23,7 +23,7 @@ class PhotoPreviewCell: UICollectionViewCell, PreviewContentType, UIScrollViewDe
             guard let model = model else { return }
             contentImageView.image = nil
             
-            SAAssetsManager.shared.fetchPreviewImage(asset: model.asset) { [weak self] (image) in
+            AssetsManager.shared.fetchPreviewImage(asset: model.asset) { [weak self] (image) in
                 guard let `self` = self else { return }
                 self.contentImageView.image = image
             }

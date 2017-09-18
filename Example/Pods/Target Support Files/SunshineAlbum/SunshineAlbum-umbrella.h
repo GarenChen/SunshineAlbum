@@ -10,8 +10,8 @@
 #endif
 #endif
 
-#import "PlayerView.h"
 #import "SunshineAlbum_Example-Bridging-Header.h"
+#import "PlayerView.h"
 
 FOUNDATION_EXPORT double SunshineAlbumVersionNumber;
 FOUNDATION_EXPORT const unsigned char SunshineAlbumVersionString[];

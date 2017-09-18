@@ -45,7 +45,7 @@ class AlbumsListController: UITableViewController {
         title = "所有相册"
         navigationItem.rightBarButtonItem = rightCancleItem
     
-        models = SAAssetsManager.shared.fetchAllAlbums()
+        models = AssetsManager.shared.fetchAllAlbums()
         tableView.reloadData()
     }
     
@@ -62,9 +62,9 @@ class AlbumsListController: UITableViewController {
 		
 		let model = models[indexPath.row]
 		
-        let ctr = AlbumSelectionController(model: model)
-		
+		let ctr: UIViewController = SASelectionManager.shared.isSingleImagePicker ?  AlbumSingleSelectionController(model: model) : AlbumMutiSelectionController(model: model)
 		navigationController?.pushViewController(ctr, animated: true)
+		
     }
 
     // MARK: - Table view data source

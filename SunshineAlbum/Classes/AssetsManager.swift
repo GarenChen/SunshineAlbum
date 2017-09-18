@@ -1,5 +1,5 @@
 //
-//  SAAssetsManager.swift
+//  AssetsManager.swift
 //  Pods
 //
 //  Created by Garen on 2017/9/7.
@@ -9,17 +9,15 @@
 import Foundation
 import Photos
 
-class SAAssetsManager: NSObject {
+class AssetsManager: NSObject {
 	
-	static let shared = SAAssetsManager()
+	static let shared = AssetsManager()
 	
     static let videoCacheName = "SunshineVideo.mp4"
-    
-	var showVideo: Bool = false
-	
+
 	var assetFetchOptions: PHFetchOptions {
 		let options = PHFetchOptions()
-		if !showVideo {
+		if !SASelectionManager.shared.containsVideo {
 			options.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
 		}
 		options.sortDescriptors = Array(arrayLiteral: NSSortDescriptor(key: "creationDate", ascending: true))
@@ -232,7 +230,7 @@ class SAAssetsManager: NSObject {
 			
 			let assetExportSession = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetPassthrough)
 			
-			let outPutPath = NSTemporaryDirectory().appending(SAAssetsManager.videoCacheName)
+			let outPutPath = NSTemporaryDirectory().appending(AssetsManager.videoCacheName)
 			
 			print("outPutPath \(outPutPath)")
             
@@ -254,7 +252,7 @@ class SAAssetsManager: NSObject {
 
 			assetExportSession?.exportAsynchronously(completionHandler: {
 				print("assetExportSession export finished")
-				SAAssetsManager.saveToPhotoWithUrl(url: url)
+				AssetsManager.saveToPhotoWithUrl(url: url)
                 success?(url)
 			})
 		}

@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 	}
 	
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		let ctr = SunshineAlbumController(showAlbumList: false, containVideo: true) { (type) in
+		let ctr = SunshineAlbumController(showAlbumList: false, maxSelectedCount: 1, containsVideo: true) { (type) in
 			switch type {
 			case .photo(let images):
 				var y: CGFloat = 0

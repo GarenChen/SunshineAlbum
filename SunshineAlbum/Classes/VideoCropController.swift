@@ -99,7 +99,7 @@ class VideoCropController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		guard let assetModel = assetModel else { return }
-		SAAssetsManager.shared.fetchAVPlayerItem(asset: assetModel.asset, success: { [weak self] (item) in
+		AssetsManager.shared.fetchAVPlayerItem(asset: assetModel.asset, success: { [weak self] (item) in
 			DispatchQueue.main.async {
 				self?.setupPlayerItem(item)
 			}
@@ -245,7 +245,7 @@ class VideoCropController: UIViewController {
 		case .finish:
 			videoSlider.isUserInteractionEnabled = true
             guard let assetModel = assetModel else { return }
-            SAAssetsManager.shared.cropVideo(asset: assetModel.asset, startTime: self.startedDurations, endTime: self.endDurations, success: { [weak self] (url) in
+            AssetsManager.shared.cropVideo(asset: assetModel.asset, startTime: self.startedDurations, endTime: self.endDurations, success: { [weak self] (url) in
                 print("\(url)")
 				let asset = AVURLAsset(url: url, options: nil)
                 DispatchQueue.main.async {  [weak self] in
