@@ -28,9 +28,12 @@ public class SASelectionManager {
 	/// 是否需要裁剪图片， 默认为false, 仅当 isSingleImagePicker 为 true 时有效
 	public var canCropImage: Bool = false
 	
-	/// 裁剪图片区域frame, 仅当 canCropImage 为 true 时有效
-	public var	imageCropFrame: CGRect = .zero
+	/// 裁剪图片区域frame, 仅当 canCropImage 为 true 时有效.
+	/// 默认 显示在中间，宽为屏幕宽度， 宽高比 5/7
+	public var	imageCropFrame: CGRect = CGRect(x: 0, y: (UIScreen.ScreenHeight - 72 - UIScreen.ScreenWidth * 1.4) / 2, width: UIScreen.ScreenWidth, height: UIScreen.ScreenWidth * 1.4)
 	
+	/// 被裁减图片最大放大倍数
+	public var limitRatio: CGFloat = 3
 	
     /// 是否允许选择视频，默认为true
 	public var containsVideo: Bool = true

@@ -109,7 +109,20 @@ class AlbumSingleSelectionController: UIViewController, UICollectionViewDelegate
 		case .image:
 			if SASelectionManager.shared.canCropImage {
 				let cropperController = ImageCropperViewController(assetModel: assetModel)
-				navigationController?.pushViewController(cropperController, animated: true)
+				cropperController.didCanceled = { [weak cropperController] in
+					cropperController?.dismiss(animated: false, completion: nil)
+				}
+				cropperController.didCropped = { [weak self, weak cropperController] image in
+					
+					cropperController?.dismiss(animated: false, completion: nil)
+					
+					if let croppedImage = image {
+						(self?.navigationController as? SunshineAlbumController)?.didFinishCroppedImage(image: croppedImage)
+					}
+					
+				}
+				present(cropperController, animated: true, completion: nil)
+				
 			} else {
 				SASelectionManager.shared.selectedAssets = [assetModel]
 				(navigationController as? SunshineAlbumController)?.didFinishSelectedImage()

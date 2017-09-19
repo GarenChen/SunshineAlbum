@@ -107,7 +107,12 @@ public class SunshineAlbumController: UINavigationController {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-    
+	
+	internal func didFinishCroppedImage(image: UIImage) {
+		dismissController()
+		complitionHandler?(.photo([image]))
+	}
+	
     internal func didFinishSelectedVideo(asset: AVURLAsset) {
         dismissController()
         complitionHandler?(.video(asset))
