@@ -178,7 +178,6 @@ class ImageCropperViewController: UIViewController {
 	}
 	
 	@objc private func didPan(_ sender: UIPanGestureRecognizer) {
-		debuglog(" imageView padding: \(sender)")
 		if sender.state == .began || sender.state == .changed {
 			let absCenterX = imageCropFrame.origin.x + imageCropFrame.size.width / 2
 			let absCenterY = imageCropFrame.origin.y + imageCropFrame.size.height / 2

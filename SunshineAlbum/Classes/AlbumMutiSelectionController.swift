@@ -68,6 +68,7 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 		collectionView.backgroundColor = .white
 		collectionView.delegate = self
 		collectionView.dataSource = self
+		collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
 		collectionView.register(UINib(nibName: ThumbnailPhotoCell.reusedId, bundle: Bundle.currentResourceBundle), forCellWithReuseIdentifier: ThumbnailPhotoCell.reusedId)
 		return collectionView
 	}()
@@ -111,11 +112,13 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         selectedModel = SASelectionManager.shared.selectedAssets
-        guard let albumModel = albumModel else { return }
-        if isFirstShow {
-            collectionView.scrollToItem(at: IndexPath(item: albumModel.count - 1, section: 0), at: .bottom, animated: false)
-            isFirstShow = false
-        }
+		if isFirstShow {
+			guard let albumModel = albumModel, albumModel.assetModels.count > 0 else {
+				return
+			}
+			collectionView.scrollToItem(at: IndexPath(item: albumModel.assetModels.count - 1, section: 0), at: .bottom, animated: false)
+			isFirstShow = false
+		}
     }
 	
 	private func setupViews() {

@@ -24,10 +24,13 @@ class AlbumSingleSelectionController: UIViewController, UICollectionViewDelegate
 	private var isFirstShow: Bool = true
 
 	private lazy var collectionView: UICollectionView = { [unowned self] in
-		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: AlbumThumbnailCollectionViewLayout())
+		let frame = CGRect(x: 0, y: UIScreen.topLayoutHeight, width: UIScreen.ScreenWidth, height: UIScreen.ScreenHeight - UIScreen.topLayoutHeight)
+		
+		let collectionView = UICollectionView(frame: frame, collectionViewLayout: AlbumThumbnailCollectionViewLayout())
 		collectionView.backgroundColor = .white
 		collectionView.delegate = self
 		collectionView.dataSource = self
+		collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
 		collectionView.register(UINib(nibName: ThumbnailPhotoCell.reusedId, bundle: Bundle.currentResourceBundle), forCellWithReuseIdentifier: ThumbnailPhotoCell.reusedId)
 		return collectionView
 	}()
@@ -47,27 +50,27 @@ class AlbumSingleSelectionController: UIViewController, UICollectionViewDelegate
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		title = albumModel?.albumName
 		navigationItem.rightBarButtonItem = rightCancleItem
 		automaticallyAdjustsScrollViewInsets = false
-		
+		view.backgroundColor = .white
 		setupViews()
-		
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		guard let albumModel = albumModel else { return }
+
 		if isFirstShow {
-			collectionView.scrollToItem(at: IndexPath(item: albumModel.count - 1, section: 0), at: .bottom, animated: false)
+			guard let albumModel = albumModel, albumModel.assetModels.count > 0 else {
+				return
+			}
+			collectionView.scrollToItem(at: IndexPath(item: albumModel.assetModels.count - 1, section: 0), at: .bottom, animated: false)
 			isFirstShow = false
 		}
 	}
 	
 	private func setupViews() {
 		view.addSubview(collectionView)
-		collectionView.frame = CGRect(x: 0, y: UIScreen.topLayoutHeight, width: UIScreen.ScreenWidth, height: UIScreen.ScreenHeight - UIScreen.topLayoutHeight)
 	}
 
 	override func didReceiveMemoryWarning() {
