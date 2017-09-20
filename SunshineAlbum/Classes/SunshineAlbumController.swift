@@ -25,10 +25,10 @@ public class SunshineAlbumController: UINavigationController {
 	/// 便利初始化方法
 	///
 	/// - Parameters:
-	///   - showAlbumList: 进入时是否显示相册列表，默认为true，为false时显示「相机胶卷」
+	///   - showAlbumList: 进入时是否显示相册列表，默认为false，为false时显示「相机胶卷」
 	///   - config: 相册相关配置 SunshineAlbumSelectionConfig
 	///   - complition: 回调
-	public convenience init(showAlbumList: Bool = true,
+	public convenience init(showAlbumList: Bool = false,
 	                        config: SunshineAlbumSelectionConfig = SunshineAlbumSelectionConfig(),
 	                        complition: @escaping (SelectedType) -> Void) {
 		
@@ -36,7 +36,10 @@ public class SunshineAlbumController: UINavigationController {
 		
 		manager.maxSelectedCount = config.maxSelectedCount
 		manager.canCropImage = config.canCropImage
-		manager.imageCropFrame = config.imageCropFrame
+		manager.imageCropHWRatio = config.imageCropHWRatio
+		if config.imageCropFrame != .zero {
+			manager.imageCropFrame = config.imageCropFrame
+		}
 		manager.limitRatio = config.limitRatio
 		manager.containsVideo = config.containsVideo
 		manager.maxSelectedVideoDuration = config.maxSelectedVideoDuration

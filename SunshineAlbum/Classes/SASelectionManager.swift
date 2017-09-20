@@ -17,16 +17,20 @@ public class SunshineAlbumSelectionConfig {
 
 	/// 是否需要裁剪图片， 默认为false, 仅当 isSingleImagePicker 为 true 时有效
 	public var canCropImage: Bool = false
+
+	/// 裁剪图片区域高宽比, 仅当 canCropImage 为 true 时有效， 默认为1／1.
+	/// 优先级低于 imageCropFrame
+	public var imageCropHWRatio: CGFloat = 1
 	
 	/// 裁剪图片区域frame, 仅当 canCropImage 为 true 时有效.
-	/// 默认 显示在中间，宽为屏幕宽度， 宽高比 5/7
-	public var	imageCropFrame: CGRect = CGRect(x: 0, y: (UIScreen.ScreenHeight - 72 - UIScreen.ScreenWidth * 1.4) / 2, width: UIScreen.ScreenWidth, height: UIScreen.ScreenWidth * 1.4)
+	/// 设置为非零frame后优先级高于 imageCropHWRatio
+	public var	imageCropFrame: CGRect = CGRect.zero
 	
 	/// 被裁减图片最大放大倍数
 	public var limitRatio: CGFloat = 3
 	
-	/// 是否允许选择视频，默认为true
-	public var containsVideo: Bool = true
+	/// 是否允许选择视频，默认为false
+	public var containsVideo: Bool = false
 	
 	/// 选择视频所允许的最大时长，仅当 canSelectedVedio 为 true 时有效， 默认为10s， 设置0时 不限制时长
 	public var maxSelectedVideoDuration: TimeInterval = 10
@@ -58,15 +62,21 @@ public class SASelectionManager {
 	/// 是否需要裁剪图片， 默认为false, 仅当 isSingleImagePicker 为 true 时有效
 	var canCropImage: Bool = false
 	
+	/// 裁剪图片区域高宽比, 仅当 canCropImage 为 true 时有效， 默认为1／1.
+	public var imageCropHWRatio: CGFloat = 1 {
+		didSet {
+			imageCropFrame = CGRect(x: 0, y: (UIScreen.ScreenHeight - 72 - UIScreen.ScreenWidth * imageCropHWRatio) / 2, width: UIScreen.ScreenWidth, height: UIScreen.ScreenWidth * imageCropHWRatio)
+		}
+	}
+	
 	/// 裁剪图片区域frame, 仅当 canCropImage 为 true 时有效.
-	/// 默认 显示在中间，宽为屏幕宽度， 宽高比 5/7
-	var	imageCropFrame: CGRect = CGRect(x: 0, y: (UIScreen.ScreenHeight - 72 - UIScreen.ScreenWidth * 1.4) / 2, width: UIScreen.ScreenWidth, height: UIScreen.ScreenWidth * 1.4)
+	var	imageCropFrame: CGRect = CGRect(x: 0, y: (UIScreen.ScreenHeight - 72 - UIScreen.ScreenWidth) / 2, width: UIScreen.ScreenWidth, height: UIScreen.ScreenWidth)
 	
 	/// 被裁减图片最大放大倍数
 	var limitRatio: CGFloat = 3
 	
-    /// 是否允许选择视频，默认为true
-	var containsVideo: Bool = true
+    /// 是否允许选择视频，默认为false
+	var containsVideo: Bool = false
 	
     /// 选择视频所允许的最大时长，仅当 canSelectedVedio 为 true 时有效， 默认为10s， 设置0时 不限制时长
     var maxSelectedVideoDuration: TimeInterval = 10
