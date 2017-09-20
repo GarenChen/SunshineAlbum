@@ -52,6 +52,7 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 	
 	var selectedModel: Array<AssetModel> = [] {
 		didSet {
+			debuglog("AlbumMutiSelectionController.selectedModel: \(selectedModel)")
 			SASelectionManager.shared.selectedAssets = selectedModel
 			needMaskUnSelectedItems = selectedModel.count >= SASelectionManager.shared.maxSelectedCount
 			refreshVisiableCellDisplayStatus()

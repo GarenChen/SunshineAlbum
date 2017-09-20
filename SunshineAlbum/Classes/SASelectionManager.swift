@@ -9,22 +9,12 @@
 import Foundation
 import Photos
 
-public class SASelectionManager {
-	
-	public static let shared = SASelectionManager()
-	
-	private init() { }
+/// 相册的设置
+public class SunshineAlbumSelectionConfig {
 	
 	/// 最大图片选择数， 默认为 9, 当设置为小于等于 1 时,为选择单个图片
-	public var maxSelectedCount: Int = 9 {
-		didSet {
-			isSingleImagePicker = (maxSelectedCount <= 1 )
-		}
-	}
-	
-	/// 是否为单个图片选择器
-	var isSingleImagePicker: Bool = false
-	
+	public var maxSelectedCount: Int = 9
+
 	/// 是否需要裁剪图片， 默认为false, 仅当 isSingleImagePicker 为 true 时有效
 	public var canCropImage: Bool = false
 	
@@ -35,16 +25,60 @@ public class SASelectionManager {
 	/// 被裁减图片最大放大倍数
 	public var limitRatio: CGFloat = 3
 	
-    /// 是否允许选择视频，默认为true
+	/// 是否允许选择视频，默认为true
 	public var containsVideo: Bool = true
 	
-    /// 选择视频所允许的最大时长，仅当 canSelectedVedio 为 true 时有效， 默认为10s， 设置0时 不限制时长
-    public var maxSelectedVideoDuration: TimeInterval = 10
+	/// 选择视频所允许的最大时长，仅当 canSelectedVedio 为 true 时有效， 默认为10s， 设置0时 不限制时长
+	public var maxSelectedVideoDuration: TimeInterval = 10
 	
 	/// 超过最大时长的视频是否可截断， 默认为false 表示不可截断不可选， 为true时截断后可选
 	public var canEditVideo: Bool = false
 	
-	lazy var selectedAssets: [AssetModel] = []
+	public init() {
+		
+	}
+}
+
+public class SASelectionManager {
+	
+	public static let shared = SASelectionManager()
+	
+	private init() { }
+	
+	/// 最大图片选择数， 默认为 9, 当设置为小于等于 1 时,为选择单个图片
+	var maxSelectedCount: Int = 9 {
+		didSet {
+			isSingleImagePicker = (maxSelectedCount <= 1 )
+		}
+	}
+	
+	/// 是否为单个图片选择器
+	var isSingleImagePicker: Bool = false
+	
+	/// 是否需要裁剪图片， 默认为false, 仅当 isSingleImagePicker 为 true 时有效
+	var canCropImage: Bool = false
+	
+	/// 裁剪图片区域frame, 仅当 canCropImage 为 true 时有效.
+	/// 默认 显示在中间，宽为屏幕宽度， 宽高比 5/7
+	var	imageCropFrame: CGRect = CGRect(x: 0, y: (UIScreen.ScreenHeight - 72 - UIScreen.ScreenWidth * 1.4) / 2, width: UIScreen.ScreenWidth, height: UIScreen.ScreenWidth * 1.4)
+	
+	/// 被裁减图片最大放大倍数
+	var limitRatio: CGFloat = 3
+	
+    /// 是否允许选择视频，默认为true
+	var containsVideo: Bool = true
+	
+    /// 选择视频所允许的最大时长，仅当 canSelectedVedio 为 true 时有效， 默认为10s， 设置0时 不限制时长
+    var maxSelectedVideoDuration: TimeInterval = 10
+	
+	/// 超过最大时长的视频是否可截断， 默认为false 表示不可截断不可选， 为true时截断后可选
+	var canEditVideo: Bool = false
+	
+	var selectedAssets: [AssetModel] = [] {
+		didSet {
+			debuglog("SASelectionManager.selectedAssets: \(selectedAssets)")
+		}
+	}
 	
 	lazy var imagesCaches: NSCache<AssetModel, UIImage> = {
 		let imagesCaches = NSCache<AssetModel, UIImage>()

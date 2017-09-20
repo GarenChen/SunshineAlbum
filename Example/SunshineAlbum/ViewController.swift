@@ -28,8 +28,13 @@ class ViewController: UIViewController {
 	}
 	
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		SASelectionManager.shared.canCropImage = true
-		let ctr = SunshineAlbumController(showAlbumList: false, maxSelectedCount: 1, containsVideo: true) { (type) in
+	
+		var config = SunshineAlbumSelectionConfig()
+		config.maxSelectedCount = 8
+		config.canCropImage = true
+		config.containsVideo = true
+		
+		let ctr = SunshineAlbumController(showAlbumList: false, config: config) { (type) in
 			switch type {
 			case .photo(let images):
 				var y: CGFloat = 0

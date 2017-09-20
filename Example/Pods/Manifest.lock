@@ -12,7 +12,7 @@ PODS:
     - Nimble
     - Quick
   - Quick (1.0.0)
-  - SunshineAlbum (0.1.1)
+  - SunshineAlbum (0.1.3)
 
 DEPENDENCIES:
   - FBSnapshotTestCase
@@ -30,7 +30,7 @@ SPEC CHECKSUMS:
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   Nimble-Snapshots: e743439f26c2fa99d8f7e0d7c01c99bcb40aa6f2
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
-  SunshineAlbum: 01f2627170a083cd757823194ab8aeb9a1d23f1d
+  SunshineAlbum: aa86000beb6b685709127ed25a1ba010455e7b65
 
 PODFILE CHECKSUM: 474b18019edf9cf7e392ac3e5ef5b08162db0bbd
 

@@ -22,20 +22,26 @@ public class SunshineAlbumController: UINavigationController {
 	
 	public var showAlbumList: Bool = true
 	
-	
 	/// 便利初始化方法
 	///
 	/// - Parameters:
-	///   - showAlbumList: 进入时是否显示列表，默认为true，为false时显示「相机胶卷」
-	///   - maxSelectedCount: 最大图片选择数， 默认为 9, 当设置为小于等于 1 时,为选择单个图片
-	///   - containsVideo: 是否允许选择视频文件
-	///   - complition: <#complition description#>
+	///   - showAlbumList: 进入时是否显示相册列表，默认为true，为false时显示「相机胶卷」
+	///   - config: 相册相关配置 SunshineAlbumSelectionConfig
+	///   - complition: 回调
 	public convenience init(showAlbumList: Bool = true,
-	                        maxSelectedCount: Int = 9,
-	                        containsVideo: Bool = true,
+	                        config: SunshineAlbumSelectionConfig = SunshineAlbumSelectionConfig(),
 	                        complition: @escaping (SelectedType) -> Void) {
-		SASelectionManager.shared.maxSelectedCount = maxSelectedCount
-		SASelectionManager.shared.containsVideo = containsVideo
+		
+		let manager = SASelectionManager.shared
+		
+		manager.maxSelectedCount = config.maxSelectedCount
+		manager.canCropImage = config.canCropImage
+		manager.imageCropFrame = config.imageCropFrame
+		manager.limitRatio = config.limitRatio
+		manager.containsVideo = config.containsVideo
+		manager.maxSelectedVideoDuration = config.maxSelectedVideoDuration
+		manager.canEditVideo = config.canEditVideo
+		
 		let albumsList = AlbumsListController(models: [])
 		self.init(rootViewController: albumsList)
 		self.showAlbumList = showAlbumList
@@ -63,12 +69,7 @@ public class SunshineAlbumController: UINavigationController {
 	public override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 	}
-	
-	public override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-		SASelectionManager.shared.cleanCaches()
-		super.dismiss(animated: flag, completion: completion)
-	}
-	
+
 	private func setupView() {
 		self.navigationBar.tintColor = .white
 		self.navigationBar.barStyle = .blackTranslucent
@@ -99,7 +100,7 @@ public class SunshineAlbumController: UINavigationController {
 		}
 	}
 	
-	internal func dismissController() {
+	func dismissController() {
 		self.dismiss(animated: true, completion: nil)
 	}
 	
@@ -108,17 +109,19 @@ public class SunshineAlbumController: UINavigationController {
 		// Dispose of any resources that can be recreated.
 	}
 	
-	internal func didFinishCroppedImage(image: UIImage) {
+	func didFinishCroppedImage(image: UIImage) {
 		dismissController()
+		SASelectionManager.shared.cleanCaches()
 		complitionHandler?(.photo([image]))
 	}
 	
-    internal func didFinishSelectedVideo(asset: AVURLAsset) {
+    func didFinishSelectedVideo(asset: AVURLAsset) {
         dismissController()
+		SASelectionManager.shared.cleanCaches()
         complitionHandler?(.video(asset))
     }
 	
-	internal func didFinishSelectedImage() {
+	func didFinishSelectedImage() {
 		
 		debuglog("\(SASelectionManager.shared.selectedAssets.description)")
 
@@ -137,7 +140,7 @@ public class SunshineAlbumController: UINavigationController {
 		}
 
 		dismissController()
-		
+		SASelectionManager.shared.cleanCaches()
 		complitionHandler?(.photo(images))
 		
 	}
