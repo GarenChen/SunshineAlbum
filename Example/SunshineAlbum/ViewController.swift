@@ -32,7 +32,7 @@ class ViewController: UIViewController {
 		var config = SunshineAlbumSelectionConfig()
 		config.maxSelectedCount = 8
 		config.canCropImage = true
-		config.containsVideo = true
+		config.containType = .both
 		
 		let ctr = SunshineAlbumController(showAlbumList: false, config: config) { (type) in
 			switch type {

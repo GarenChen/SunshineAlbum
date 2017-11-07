@@ -41,7 +41,7 @@ public class SunshineAlbumController: UINavigationController {
 			manager.imageCropFrame = config.imageCropFrame
 		}
 		manager.limitRatio = config.limitRatio
-		manager.containsVideo = config.containsVideo
+		manager.containType = config.containType
 		manager.maxSelectedVideoDuration = config.maxSelectedVideoDuration
 		manager.canEditVideo = config.canEditVideo
 		

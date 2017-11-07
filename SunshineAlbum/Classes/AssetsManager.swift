@@ -17,8 +17,13 @@ class AssetsManager: NSObject {
 
 	var assetFetchOptions: PHFetchOptions {
 		let options = PHFetchOptions()
-		if !SASelectionManager.shared.containsVideo {
+		switch SASelectionManager.shared.containType {
+		case .photo:
 			options.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
+		case .video:
+			options.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.video.rawValue)
+		case .both:
+			break
 		}
 		options.sortDescriptors = Array(arrayLiteral: NSSortDescriptor(key: "creationDate", ascending: true))
 		return options

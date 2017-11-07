@@ -9,6 +9,12 @@
 import Foundation
 import Photos
 
+public enum SunshineAlbumContainAssetType {
+	case photo
+	case video
+	case both
+}
+
 /// 相册的设置
 public class SunshineAlbumSelectionConfig {
 	
@@ -29,9 +35,9 @@ public class SunshineAlbumSelectionConfig {
 	/// 被裁减图片最大放大倍数
 	public var limitRatio: CGFloat = 3
 	
-	/// 是否允许选择视频，默认为false
-	public var containsVideo: Bool = false
-	
+	/// 是否允许选择图片或者视频，默认为只选择图片
+	public var containType: SunshineAlbumContainAssetType = .photo
+
 	/// 选择视频所允许的最大时长，仅当 canSelectedVedio 为 true 时有效， 默认为10s， 设置0时 不限制时长
 	public var maxSelectedVideoDuration: TimeInterval = 10
 	
@@ -75,8 +81,8 @@ public class SASelectionManager {
 	/// 被裁减图片最大放大倍数
 	var limitRatio: CGFloat = 3
 	
-    /// 是否允许选择视频，默认为false
-	var containsVideo: Bool = false
+	/// 是否允许选择图片或者视频，默认为只选择图片
+	public var containType: SunshineAlbumContainAssetType = .photo
 	
     /// 选择视频所允许的最大时长，仅当 canSelectedVedio 为 true 时有效， 默认为10s， 设置0时 不限制时长
     var maxSelectedVideoDuration: TimeInterval = 10
