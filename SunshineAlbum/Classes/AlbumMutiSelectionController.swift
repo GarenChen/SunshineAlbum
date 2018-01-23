@@ -105,11 +105,11 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 		title = albumModel?.albumName
 		navigationItem.rightBarButtonItem = rightCancleItem
 
-		if #available(iOS 11, *) {
-			self.collectionView.contentInsetAdjustmentBehavior = .never
-		} else {
-			automaticallyAdjustsScrollViewInsets = false
-		}
+//		if #available(iOS 11, *) {
+//			self.collectionView.contentInsetAdjustmentBehavior = .never
+//		} else {
+//			automaticallyAdjustsScrollViewInsets = false
+//		}
 
 		setupViews()
 
@@ -128,9 +128,15 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
     }
 	
 	private func setupViews() {
+//		collectionView.frame = CGRect(x: 0, y: UIScreen.topLayoutHeight, width: UIScreen.ScreenWidth, height: UIScreen.ScreenHeight - UIScreen.topLayoutHeight - UIScreen.bottomBarHeight)
+		
+		collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - UIScreen.bottomBarHeight)
+		
+		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+		
 		view.addSubview(collectionView)
-		collectionView.frame = CGRect(x: 0, y: UIScreen.topLayoutHeight, width: UIScreen.ScreenWidth, height: UIScreen.ScreenHeight - UIScreen.topLayoutHeight - UIScreen.bottomBarHeight)
         view.addSubview(customBottombar)
+		
         refreshCustomBars()
 	}
 

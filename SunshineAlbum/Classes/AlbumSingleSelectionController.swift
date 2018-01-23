@@ -52,11 +52,12 @@ class AlbumSingleSelectionController: UIViewController, UICollectionViewDelegate
 		super.viewDidLoad()
 		title = albumModel?.albumName
 		navigationItem.rightBarButtonItem = rightCancleItem
-		if #available(iOS 11, *) {
-			self.collectionView.contentInsetAdjustmentBehavior = .never
-		} else {
-			automaticallyAdjustsScrollViewInsets = false
-		}
+//		if #available(iOS 11, *) {
+//			self.collectionView.contentInsetAdjustmentBehavior = .never
+//		} else {
+//			automaticallyAdjustsScrollViewInsets = false
+//		}
+		
 		view.backgroundColor = .white
 		setupViews()
 	}
@@ -74,6 +75,10 @@ class AlbumSingleSelectionController: UIViewController, UICollectionViewDelegate
 	}
 	
 	private func setupViews() {
+		
+		collectionView.frame = view.bounds
+		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+		
 		view.addSubview(collectionView)
 	}
 
