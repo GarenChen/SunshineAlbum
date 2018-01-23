@@ -130,16 +130,23 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 	private func setupViews() {
 //		collectionView.frame = CGRect(x: 0, y: UIScreen.topLayoutHeight, width: UIScreen.ScreenWidth, height: UIScreen.ScreenHeight - UIScreen.topLayoutHeight - UIScreen.bottomBarHeight)
 		
-		collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - UIScreen.bottomBarHeight)
-		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		
-		customBottombar.frame = CGRect.init(x: 0, y: view.bounds.size.height - UIScreen.bottomBarHeight, width: view.bounds.size.width, height: UIScreen.bottomBarHeight)
-		collectionView.autoresizingMask = [.flexibleWidth]
+//		collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - UIScreen.bottomBarHeight)
+//		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//
+//		customBottombar.frame = CGRect.init(x: 0, y: view.bounds.size.height - UIScreen.bottomBarHeight, width: view.bounds.size.width, height: UIScreen.bottomBarHeight)
+//		collectionView.autoresizingMask = [.flexibleWidth]
 		
 		view.addSubview(collectionView)
         view.addSubview(customBottombar)
 		
         refreshCustomBars()
+	}
+	
+	override func viewWillLayoutSubviews() {
+		super.viewWillLayoutSubviews()
+		collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - UIScreen.bottomBarHeight)
+		
+		customBottombar.frame = CGRect.init(x: 0, y: view.bounds.size.height - UIScreen.bottomBarHeight, width: view.bounds.size.width, height: UIScreen.bottomBarHeight)
 	}
 
     private func refreshCustomBars() {
