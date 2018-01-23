@@ -75,7 +75,7 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 	}()
     
     private lazy var customBottombar: PreviewBottomBar = { [unowned self] in
-        let bar  = PreviewBottomBar(frame: CGRect(x: 0, y: UIScreen.ScreenHeight - UIScreen.bottomBarHeight, width: UIScreen.ScreenWidth, height: UIScreen.bottomBarHeight))
+        let bar  = PreviewBottomBar(frame: CGRect.zero)
 		bar.firstButton.setTitle("预览", for: .normal)
 		bar.decLabel.isHidden = true
 		bar.didClickedFirst = { [weak self] sender in
@@ -110,7 +110,7 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 //		} else {
 //			automaticallyAdjustsScrollViewInsets = false
 //		}
-
+		view.backgroundColor = .white
 		setupViews()
 
     }
@@ -131,8 +131,10 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 //		collectionView.frame = CGRect(x: 0, y: UIScreen.topLayoutHeight, width: UIScreen.ScreenWidth, height: UIScreen.ScreenHeight - UIScreen.topLayoutHeight - UIScreen.bottomBarHeight)
 		
 		collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - UIScreen.bottomBarHeight)
-		
 		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+		
+		customBottombar.frame = CGRect.init(x: 0, y: view.bounds.size.height - UIScreen.bottomBarHeight, width: view.bounds.size.width, height: UIScreen.bottomBarHeight)
+		collectionView.autoresizingMask = [.flexibleWidth]
 		
 		view.addSubview(collectionView)
         view.addSubview(customBottombar)
