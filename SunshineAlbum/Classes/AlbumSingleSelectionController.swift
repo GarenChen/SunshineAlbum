@@ -52,7 +52,11 @@ class AlbumSingleSelectionController: UIViewController, UICollectionViewDelegate
 		super.viewDidLoad()
 		title = albumModel?.albumName
 		navigationItem.rightBarButtonItem = rightCancleItem
-		automaticallyAdjustsScrollViewInsets = false
+		if #available(iOS 11, *) {
+			self.collectionView.contentInsetAdjustmentBehavior = .never
+		} else {
+			automaticallyAdjustsScrollViewInsets = false
+		}
 		view.backgroundColor = .white
 		setupViews()
 	}

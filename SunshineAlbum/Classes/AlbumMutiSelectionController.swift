@@ -104,8 +104,13 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 		
 		title = albumModel?.albumName
 		navigationItem.rightBarButtonItem = rightCancleItem
-		automaticallyAdjustsScrollViewInsets = false
-        
+
+		if #available(iOS 11, *) {
+			self.collectionView.contentInsetAdjustmentBehavior = .never
+		} else {
+			automaticallyAdjustsScrollViewInsets = false
+		}
+
 		setupViews()
 
     }
