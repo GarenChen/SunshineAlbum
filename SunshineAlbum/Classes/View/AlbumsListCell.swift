@@ -23,12 +23,16 @@ class AlbumsListCell: UITableViewCell {
             guard let firstAsset = albumModel.assetResult.firstObject else {
                 return
             }
+			
+			AssetsManager.shared.fetchThumbnailImage(asset: firstAsset, width: SAAlbumThumbnailSize.width, height: SAAlbumThumbnailSize.height) { [weak self] (image) in
+				self?.thumbnailView.image = image
+			}
             
-            PHImageManager.default().requestImage(for: firstAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFill, options: nil) { [weak self] (image, info) in
-                if let resultImage = image {
-                    self?.thumbnailView.image = resultImage
-                }
-            }
+//            PHImageManager.default().requestImage(for: firstAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFill, options: nil) { [weak self] (image, info) in
+//                if let resultImage = image {
+//                    self?.thumbnailView.image = resultImage
+//                }
+//            }
         }
     }
     
