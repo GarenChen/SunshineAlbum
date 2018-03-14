@@ -48,6 +48,13 @@ class AlbumsListController: UITableViewController {
         models = AssetsManager.shared.fetchAllAlbums()
         tableView.reloadData()
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		if models.isEmpty {
+			models = AssetsManager.shared.fetchAllAlbums()
+		}
+	}
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
