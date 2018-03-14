@@ -83,6 +83,7 @@ public class SunshineAlbumController: UINavigationController {
 			DispatchQueue.main.async {
 				switch status {
 				case .authorized:
+					self.viewControllers.first?.title = "所有相册"
 					if !self.showAlbumList {
 						guard let model = AssetsManager.shared.fetchCameraRoll() else {
 							return

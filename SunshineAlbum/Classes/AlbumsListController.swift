@@ -11,7 +11,11 @@ import Photos
 
 class AlbumsListController: UITableViewController {
 
-    var models: [AlbumsModel] = []
+	var models: [AlbumsModel] = [] {
+		didSet {
+			tableView.reloadData()
+		}
+	}
     
     convenience init(models: [AlbumsModel]) {
         self.init(style: .plain)
@@ -41,10 +45,9 @@ class AlbumsListController: UITableViewController {
         
         // Uncomment the following line to preserve selection between presentations
          self.clearsSelectionOnViewWillAppear = false
-        
-        title = "所有相册"
+		
         navigationItem.rightBarButtonItem = rightCancleItem
-    
+//    	title = "所有相册"
         models = AssetsManager.shared.fetchAllAlbums()
         tableView.reloadData()
     }
