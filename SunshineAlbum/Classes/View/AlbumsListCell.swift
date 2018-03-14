@@ -24,7 +24,7 @@ class AlbumsListCell: UITableViewCell {
                 return
             }
             
-            PHImageManager.default().requestImage(for: firstAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFit, options: nil) { [weak self] (image, info) in
+            PHImageManager.default().requestImage(for: firstAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFill, options: nil) { [weak self] (image, info) in
                 if let resultImage = image {
                     self?.thumbnailView.image = resultImage
                 }
