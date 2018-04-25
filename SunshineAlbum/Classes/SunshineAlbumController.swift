@@ -80,7 +80,8 @@ public class SunshineAlbumController: UINavigationController {
 	
 	private func checkAuthorization() {
 		PHPhotoLibrary.requestAuthorization { (status) in
-			DispatchQueue.main.async {
+			DispatchQueue.main.async { [weak self] in
+                guard let `self` = self else { return }
 				switch status {
 				case .authorized:
 					self.viewControllers.first?.title = "所有相册"
@@ -98,7 +99,7 @@ public class SunshineAlbumController: UINavigationController {
 					}
 				default:
                     self.showAlert(title: "请在iphone的\"设置-隐私-照片\"选项中，设置成允许访问您的相册",
-                                   actions: ("取消", { _ in
+                                   actions: ("确定", { _ in
                                     self.dismissController()
                                    }))
 //                    self.showAlert(title: "尚未获取照片的使用权限，请在设置中开启「照片」",
