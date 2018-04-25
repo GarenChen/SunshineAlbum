@@ -34,7 +34,7 @@ class ViewController: UIViewController {
 		config.canCropImage = true
 		config.containType = .both
 		
-		let ctr = SunshineAlbumController(showAlbumList: false, config: config) { (type) in
+		let ctr = SunshineAlbumController(showAlbumList: true, config: config) { (type) in
 			switch type {
 			case .photo(let images):
 				var y: CGFloat = 0

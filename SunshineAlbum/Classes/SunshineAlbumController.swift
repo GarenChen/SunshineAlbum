@@ -84,14 +84,18 @@ public class SunshineAlbumController: UINavigationController {
 				switch status {
 				case .authorized:
 					self.viewControllers.first?.title = "所有相册"
-					if !self.showAlbumList {
+					if self.showAlbumList {
+						guard let listCtr = self.viewControllers.first as? AlbumsListController else {
+							return
+						}
+						listCtr.models = AssetsManager.shared.fetchAllAlbums()
+					} else {
 						guard let model = AssetsManager.shared.fetchCameraRoll() else {
 							return
 						}
 						let ctr: UIViewController = SASelectionManager.shared.isSingleImagePicker ? AlbumSingleSelectionController(model: model) :  AlbumMutiSelectionController(model: model)
 						self.pushViewController(ctr, animated: false)
 					}
-					
 				default:
 					self.showAlert(title: "尚未获取照片的使用权限，请在设置中开启「照片」",
 					               actions: ("取消", nil), ("前往设置", { _ in
