@@ -97,12 +97,16 @@ public class SunshineAlbumController: UINavigationController {
 						self.pushViewController(ctr, animated: false)
 					}
 				default:
-					self.showAlert(title: "尚未获取照片的使用权限，请在设置中开启「照片」",
-					               actions: ("取消", nil), ("前往设置", { _ in
-									if let url = URL(string: UIApplicationOpenSettingsURLString),  UIApplication.shared.canOpenURL(url) {
-										UIApplication.shared.openURL(url)
-									}
-								}))
+                    self.showAlert(title: "请在iphone的\"设置-隐私-照片\"选项中，设置成允许访问您的相册",
+                                   actions: ("取消", { _ in
+                                    self.dismissController()
+                                   }))
+//                    self.showAlert(title: "尚未获取照片的使用权限，请在设置中开启「照片」",
+//                                   actions: ("取消", nil), ("前往设置", { _ in
+//                                    if let url = URL(string: UIApplicationOpenSettingsURLString),  UIApplication.shared.canOpenURL(url) {
+//                                        UIApplication.shared.openURL(url)
+//                                    }
+//                                }))
 				}
 			}
 		}
