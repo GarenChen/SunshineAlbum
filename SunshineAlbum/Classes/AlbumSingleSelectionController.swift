@@ -52,12 +52,6 @@ class AlbumSingleSelectionController: UIViewController, UICollectionViewDelegate
 		super.viewDidLoad()
 		title = albumModel?.albumName
 		navigationItem.rightBarButtonItem = rightCancleItem
-//		if #available(iOS 11, *) {
-//			self.collectionView.contentInsetAdjustmentBehavior = .never
-//		} else {
-//			automaticallyAdjustsScrollViewInsets = false
-//		}
-		
 		view.backgroundColor = .white
 		setupViews()
 	}
@@ -65,6 +59,22 @@ class AlbumSingleSelectionController: UIViewController, UICollectionViewDelegate
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
+//		if isFirstShow {
+//			guard let albumModel = albumModel, albumModel.assetModels.count > 0 else {
+//				return
+//			}
+//			collectionView.scrollToItem(at: IndexPath(item: albumModel.assetModels.count - 1, section: 0), at: .bottom, animated: false)
+//			isFirstShow = false
+//		}
+	}
+	
+	private func setupViews() {
+		view.addSubview(collectionView)
+	}
+
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		collectionView.frame = view.bounds
 		if isFirstShow {
 			guard let albumModel = albumModel, albumModel.assetModels.count > 0 else {
 				return
@@ -74,14 +84,6 @@ class AlbumSingleSelectionController: UIViewController, UICollectionViewDelegate
 		}
 	}
 	
-	private func setupViews() {
-		
-		collectionView.frame = view.bounds
-		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		
-		view.addSubview(collectionView)
-	}
-
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.

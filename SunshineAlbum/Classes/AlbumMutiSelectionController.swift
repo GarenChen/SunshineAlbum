@@ -105,11 +105,6 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 		title = albumModel?.albumName
 		navigationItem.rightBarButtonItem = rightCancleItem
 
-//		if #available(iOS 11, *) {
-//			self.collectionView.contentInsetAdjustmentBehavior = .never
-//		} else {
-//			automaticallyAdjustsScrollViewInsets = false
-//		}
 		view.backgroundColor = .white
 		setupViews()
 
@@ -118,6 +113,28 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         selectedModel = SASelectionManager.shared.selectedAssets
+//		if isFirstShow {
+//			guard let albumModel = albumModel, albumModel.assetModels.count > 0 else {
+//				return
+//			}
+//			collectionView.scrollToItem(at: IndexPath(item: albumModel.assetModels.count - 1, section: 0), at: .bottom, animated: false)
+//			isFirstShow = false
+//		}
+    }
+	
+	private func setupViews() {
+
+		view.addSubview(collectionView)
+        view.addSubview(customBottombar)
+		
+        refreshCustomBars()
+	}
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - UIScreen.bottomBarHeight)
+		
+		customBottombar.frame = CGRect.init(x: 0, y: view.bounds.size.height - UIScreen.bottomBarHeight, width: view.bounds.size.width, height: UIScreen.bottomBarHeight)
+		
 		if isFirstShow {
 			guard let albumModel = albumModel, albumModel.assetModels.count > 0 else {
 				return
@@ -125,28 +142,9 @@ class AlbumMutiSelectionController: UIViewController, UICollectionViewDelegate, 
 			collectionView.scrollToItem(at: IndexPath(item: albumModel.assetModels.count - 1, section: 0), at: .bottom, animated: false)
 			isFirstShow = false
 		}
-    }
-	
-	private func setupViews() {
-//		collectionView.frame = CGRect(x: 0, y: UIScreen.topLayoutHeight, width: UIScreen.ScreenWidth, height: UIScreen.ScreenHeight - UIScreen.topLayoutHeight - UIScreen.bottomBarHeight)
-		
-//		collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - UIScreen.bottomBarHeight)
-//		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//
-//		customBottombar.frame = CGRect.init(x: 0, y: view.bounds.size.height - UIScreen.bottomBarHeight, width: view.bounds.size.width, height: UIScreen.bottomBarHeight)
-//		collectionView.autoresizingMask = [.flexibleWidth]
-		
-		view.addSubview(collectionView)
-        view.addSubview(customBottombar)
-		
-        refreshCustomBars()
 	}
-	
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
-		collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height - UIScreen.bottomBarHeight)
-		
-		customBottombar.frame = CGRect.init(x: 0, y: view.bounds.size.height - UIScreen.bottomBarHeight, width: view.bounds.size.width, height: UIScreen.bottomBarHeight)
 	}
 
     private func refreshCustomBars() {
