@@ -62,7 +62,7 @@ class PreviewBottomBar: UIView {
     
     private func setupView() {
         
-        backgroundColor = UIColor(colorLiteralRed: 0.15, green: 0.15, blue: 0.15, alpha: 0.9)
+        backgroundColor = UIColor.init(red: 0.15, green: 0.15, blue: 0.15, alpha: 0.9)
         
         addSubview(firstButton)
         addSubview(decLabel)

@@ -216,22 +216,22 @@ class AssetsManager: NSObject {
 			
 			let mixComposition = AVMutableComposition()
 			
-			let compositionVideoTrack = mixComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
+			let compositionVideoTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: kCMPersistentTrackID_Invalid)
 			
-			let compositionAudioTrack = mixComposition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
+			let compositionAudioTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid)
 			
-            let assetVideoTrack = asset.tracks(withMediaType: AVMediaTypeVideo).first!
+			let assetVideoTrack = asset.tracks(withMediaType: AVMediaType.video).first!
             
-            let assetAudioTrack = asset.tracks(withMediaType: AVMediaTypeAudio).first!
+			let assetAudioTrack = asset.tracks(withMediaType: AVMediaType.audio).first!
             
 			do {
-				try compositionVideoTrack.insertTimeRange(range, of: assetVideoTrack, at: kCMTimeZero)
-				try compositionAudioTrack.insertTimeRange(range, of: assetAudioTrack, at: kCMTimeZero)
+				try compositionVideoTrack?.insertTimeRange(range, of: assetVideoTrack, at: kCMTimeZero)
+				try compositionAudioTrack?.insertTimeRange(range, of: assetAudioTrack, at: kCMTimeZero)
 			} catch let e {
 				print(e)
 			}
 
-            compositionVideoTrack.preferredTransform = assetVideoTrack.preferredTransform
+			compositionVideoTrack?.preferredTransform = assetVideoTrack.preferredTransform
 			
 			let assetExportSession = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetPassthrough)
 			
@@ -241,7 +241,7 @@ class AssetsManager: NSObject {
             
             let url = URL(fileURLWithPath: outPutPath)
 			
-			assetExportSession?.outputFileType = AVFileTypeMPEG4
+			assetExportSession?.outputFileType = AVFileType.mp4
             
             assetExportSession?.outputURL = url
 			

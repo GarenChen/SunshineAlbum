@@ -49,12 +49,12 @@ class PhotoPreviewCell: UICollectionViewCell, PreviewContentType, UIScrollViewDe
         contentScrollView.setZoomScale(1, animated: false)
     }
     
-    func singleTapImageView() {
+	@objc func singleTapImageView() {
         hiddenBars = !hiddenBars
         tapConentToHideBar?(hiddenBars)
     }
     
-    func doubleTapImageView(_ gesture: UITapGestureRecognizer) {
+	@objc func doubleTapImageView(_ gesture: UITapGestureRecognizer) {
         if contentScrollView.zoomScale > 1 {
             contentScrollView.setZoomScale(1, animated: true)
         } else {
