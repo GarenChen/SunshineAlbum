@@ -33,6 +33,7 @@ class ViewController: UIViewController {
 		config.maxSelectedCount = 1
 		config.canCropImage = true
 		config.containType = .both
+		config.navigationBarTintColor = .blue
 		
 		let ctr = SunshineAlbumController(showAlbumList: false, config: config) { (type) in
 			switch type {
