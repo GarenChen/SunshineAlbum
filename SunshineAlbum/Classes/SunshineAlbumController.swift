@@ -21,7 +21,7 @@ public class SunshineAlbumController: UINavigationController {
 	public var complitionHandler: ((SelectedType) -> Void)?
 	
 	public var showAlbumList: Bool = true
-	
+
 	/// 便利初始化方法
 	///
 	/// - Parameters:
@@ -44,6 +44,8 @@ public class SunshineAlbumController: UINavigationController {
 		manager.containType = config.containType
 		manager.maxSelectedVideoDuration = config.maxSelectedVideoDuration
 		manager.canEditVideo = config.canEditVideo
+		manager.navigationBarTintColor = config.navigationBarTintColor
+		manager.navigationBarStyle = config.navigationBarStyle
 		
 		let albumsList = AlbumsListController(models: [])
 		self.init(rootViewController: albumsList)
@@ -74,8 +76,8 @@ public class SunshineAlbumController: UINavigationController {
 	}
 
 	private func setupView() {
-		self.navigationBar.tintColor = .white
-		self.navigationBar.barStyle = .blackTranslucent
+		self.navigationBar.tintColor = SASelectionManager.shared.navigationBarTintColor
+		self.navigationBar.barStyle = SASelectionManager.shared.navigationBarStyle
 	}
 	
 	private func checkAuthorization() {
@@ -102,12 +104,6 @@ public class SunshineAlbumController: UINavigationController {
                                    actions: ("确定", { _ in
                                     self.dismissController()
                                    }))
-//                    self.showAlert(title: "尚未获取照片的使用权限，请在设置中开启「照片」",
-//                                   actions: ("取消", nil), ("前往设置", { _ in
-//                                    if let url = URL(string: UIApplicationOpenSettingsURLString),  UIApplication.shared.canOpenURL(url) {
-//                                        UIApplication.shared.openURL(url)
-//                                    }
-//                                }))
 				}
 			}
 		}
