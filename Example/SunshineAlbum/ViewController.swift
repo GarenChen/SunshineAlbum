@@ -30,11 +30,8 @@ class ViewController: UIViewController {
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 	
 		var config = SunshineAlbumSelectionConfig()
-		config.maxSelectedCount = 1
-		config.canCropImage = true
-		config.containType = .both
 		config.navigationBarTintColor = .blue
-		
+		config.navigationBarStyle = .blackTranslucent
 		let ctr = SunshineAlbumController(showAlbumList: false, config: config) { (type) in
 			switch type {
 			case .photo(let images):
