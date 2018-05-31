@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SunshineAlbum'
-  s.version          = '0.1.5'
+  s.version          = '4.1.0'
   s.summary          = 'A short description of SunshineAlbum.'
 
 # This description is used to generate tags and improve search results.
