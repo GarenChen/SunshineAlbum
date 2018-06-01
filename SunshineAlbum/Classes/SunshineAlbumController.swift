@@ -44,9 +44,7 @@ public class SunshineAlbumController: UINavigationController {
 		manager.containType = config.containType
 		manager.maxSelectedVideoDuration = config.maxSelectedVideoDuration
 		manager.canEditVideo = config.canEditVideo
-		manager.navigationBarTintColor = config.navigationBarTintColor
-		manager.navigationBarStyle = config.navigationBarStyle
-		
+
 		let albumsList = AlbumsListController(models: [])
 		self.init(rootViewController: albumsList)
 		self.showAlbumList = showAlbumList
@@ -76,8 +74,12 @@ public class SunshineAlbumController: UINavigationController {
 	}
 
 	private func setupView() {
-		self.navigationBar.tintColor = SASelectionManager.shared.navigationBarTintColor
-		self.navigationBar.barStyle = SASelectionManager.shared.navigationBarStyle
+		self.navigationBar.barStyle = .black
+		self.navigationBar.isTranslucent = true
+		self.navigationBar.setBackgroundImage(nil, for: .default)
+		self.navigationBar.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.4)
+		self.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+		self.navigationBar.tintColor = .white
 	}
 	
 	private func checkAuthorization() {

@@ -17,11 +17,7 @@ public enum SunshineAlbumContainAssetType {
 
 /// 相册的设置
 public class SunshineAlbumSelectionConfig {
-	
-	public var navigationBarTintColor: UIColor = UIColor.white
-	
-	public var navigationBarStyle: UIBarStyle = .blackTranslucent
-	
+
 	/// 最大图片选择数， 默认为 9, 当设置为小于等于 1 时,为选择单个图片
 	public var maxSelectedCount: Int = 9
 
@@ -65,11 +61,7 @@ public class SASelectionManager {
 			isSingleImagePicker = (maxSelectedCount <= 1 )
 		}
 	}
-	
-	var navigationBarTintColor: UIColor = UIColor.white
-	
-	var navigationBarStyle: UIBarStyle = .blackTranslucent
-	
+
 	/// 是否为单个图片选择器
 	var isSingleImagePicker: Bool = false
 	
